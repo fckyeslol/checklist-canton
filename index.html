@@ -846,12 +846,33 @@ body{
 }
 .prov-field textarea{min-height:72px;resize:vertical;line-height:1.45}
 .prov-photo-box{
+  position:relative;
   border:2px dashed var(--line);border-radius:14px;padding:14px;
   text-align:center;background:#faf9f7;
 }
+/* iOS/Safari: evitar display:none en <input type=file> (cámara negra / fallos) */
+.prov-file-input{
+  position:absolute;
+  width:1px;height:1px;
+  padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);
+  border:0;
+  opacity:0.01;
+}
+.prov-photo-buttons{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:4px;
+}
+.btn-prov-sm.btn-prov-primary{
+  background:var(--ink);color:#faf7f2;border-color:var(--ink);
+}
+.btn-prov-sm.btn-prov-primary:hover{opacity:.92;color:#faf7f2}
+.prov-photo-hint{
+  font-size:11px;color:var(--muted);margin-top:10px;line-height:1.45;text-align:left;
+}
 .prov-photo-preview{
-  max-height:180px;max-width:100%;border-radius:10px;margin-top:10px;
+  max-height:220px;max-width:100%;border-radius:10px;margin-top:10px;
   object-fit:contain;
+  background:#e8e4dc;
 }
 .prov-photo-input-wrap{margin-top:8px}
 .prov-modal-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
@@ -947,10 +968,15 @@ body{
         <div class="prov-field"><label for="provProvides">Qué provee</label><textarea id="provProvides" name="provides" placeholder="Producto, categoría, MOQ si lo anotaste…"></textarea></div>
         <div class="prov-field"><label for="provNotes">Notas</label><textarea id="provNotes" name="notes" placeholder="Precio FOB, certificados, impresiones…"></textarea></div>
         <div class="prov-field">
-          <label for="provPhoto" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px;cursor:pointer">Foto de la tarjeta</label>
+          <span style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px">Foto de la tarjeta</span>
           <div class="prov-photo-box">
-            <input type="file" id="provPhoto" accept="image/*" capture="environment" class="hidden">
-            <button type="button" class="btn-prov-sm" id="provPhotoBtn">Elegir o tomar foto</button>
+            <input type="file" id="provPhotoLib" accept="image/*" class="prov-file-input" aria-label="Elegir foto de la biblioteca">
+            <input type="file" id="provPhotoCam" accept="image/*" capture="environment" class="prov-file-input" aria-label="Tomar foto con la cámara">
+            <div class="prov-photo-buttons">
+              <button type="button" class="btn-prov-sm btn-prov-primary" id="provPhotoBtnLib">Biblioteca</button>
+              <button type="button" class="btn-prov-sm" id="provPhotoBtnCam">Cámara</button>
+            </div>
+            <p class="prov-photo-hint">Biblioteca = Fotos del iPhone. Cámara = disparador nativo (si falla, usa Biblioteca o toma la foto con la app Cámara y elígela aquí).</p>
             <div id="provPhotoPreviewWrap" class="hidden"><img id="provPhotoPreview" class="prov-photo-preview" alt="Vista previa tarjeta"></div>
           </div>
         </div>
@@ -1119,6 +1145,7 @@ let active=TABS[0];
 let supplierCountCache=0;
 let pendingCardBlob=null;
 let provPhotoObjectUrl=null;
+let provCamCleanup=null;
 const STORE_KEY='canton2026_v1';
 const DB_NAME='canton_suppliers_v1';
 const DB_STORE='suppliers';
@@ -1217,18 +1244,25 @@ function revokeProvPhotoUrl(){
 }
 function closeProvModal(){
   revokeProvPhotoUrl();
+  if(provCamCleanup)provCamCleanup();
   var m=document.getElementById('provModal');
   if(m){m.classList.remove('is-open');m.setAttribute('aria-hidden','true');}
   document.body.style.overflow='';
   pendingCardBlob=null;
-  var pi=document.getElementById('provPhoto');
-  if(pi)pi.value='';
+  var phL=document.getElementById('provPhotoLib');
+  var phC=document.getElementById('provPhotoCam');
+  if(phL)phL.value='';
+  if(phC)phC.value='';
 }
 function openProvModal(editId){
   revokeProvPhotoUrl();
   pendingCardBlob=null;
   var form=document.getElementById('provForm');
   if(form)form.reset();
+  var phL=document.getElementById('provPhotoLib');
+  var phC=document.getElementById('provPhotoCam');
+  if(phL)phL.value='';
+  if(phC)phC.value='';
   var eid=document.getElementById('provEditId');
   if(eid)eid.value=editId||'';
   var wrap=document.getElementById('provPhotoPreviewWrap');
@@ -1622,21 +1656,50 @@ function resetAll(){
   const bg=document.getElementById('provModalBg');
   const cl=document.getElementById('provModalClose');
   const ca=document.getElementById('provModalCancel');
-  const pb=document.getElementById('provPhotoBtn');
-  const ph=document.getElementById('provPhoto');
-  if(bg)bg.addEventListener('click',closeProvModal);
-  if(cl)cl.addEventListener('click',closeProvModal);
-  if(ca)ca.addEventListener('click',closeProvModal);
-  if(pb&&ph)pb.addEventListener('click',function(){ph.click();});
-  if(ph)ph.addEventListener('change',function(e){
-    const f=e.target.files[0];
+  const btnLib=document.getElementById('provPhotoBtnLib');
+  const btnCam=document.getElementById('provPhotoBtnCam');
+  const phLib=document.getElementById('provPhotoLib');
+  const phCam=document.getElementById('provPhotoCam');
+  function lockBodyForModal(){
+    var m=document.getElementById('provModal');
+    if(m&&m.classList.contains('is-open'))document.body.style.overflow='hidden';
+  }
+  function onProvFileChange(e){
+    var f=e.target.files&&e.target.files[0];
     if(!f)return;
     pendingCardBlob=f;
     revokeProvPhotoUrl();
     provPhotoObjectUrl=URL.createObjectURL(f);
     document.getElementById('provPhotoPreview').src=provPhotoObjectUrl;
     document.getElementById('provPhotoPreviewWrap').classList.remove('hidden');
+    if(e.target===phCam&&provCamCleanup)provCamCleanup();
+    else lockBodyForModal();
+  }
+  if(bg)bg.addEventListener('click',closeProvModal);
+  if(cl)cl.addEventListener('click',closeProvModal);
+  if(ca)ca.addEventListener('click',closeProvModal);
+  if(btnLib&&phLib)btnLib.addEventListener('click',function(){phLib.click();});
+  if(btnCam&&phCam)btnCam.addEventListener('click',function(){
+    if(provCamCleanup)provCamCleanup();
+    document.body.style.overflow='';
+    function onF(){
+      if(provCamCleanup)provCamCleanup();
+    }
+    function onVis(){
+      if(document.visibilityState==='visible'&&provCamCleanup)provCamCleanup();
+    }
+    provCamCleanup=function(){
+      window.removeEventListener('focus',onF);
+      document.removeEventListener('visibilitychange',onVis);
+      provCamCleanup=null;
+      lockBodyForModal();
+    };
+    window.addEventListener('focus',onF,{once:true});
+    document.addEventListener('visibilitychange',onVis);
+    phCam.click();
   });
+  if(phLib)phLib.addEventListener('change',onProvFileChange);
+  if(phCam)phCam.addEventListener('change',onProvFileChange);
   const fm=document.getElementById('provForm');
   if(fm)fm.addEventListener('submit',function(e){
     e.preventDefault();

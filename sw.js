@@ -1,5 +1,5 @@
 /* Cache estático para uso offline (GitHub Pages o servidor local con HTTPS) */
-const CACHE = 'checklist-canton-v2';
+const CACHE = 'checklist-canton-v3';
 const scope = self.registration.scope;
 
 function asset(path) {
