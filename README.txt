@@ -33,6 +33,12 @@ CÓMO USAR
 5. Etiquetas:
    Importación · Fotografía · Café
 
+PROVEEDORES (tarjetas de feria)
+-------------------------------
+- Pestaña «Proveedores» al final de las categorías (o menú Lista en móvil).
+- Sube foto de la tarjeta y completa WeChat, correo, qué provee, etc.
+- Los datos se guardan en IndexedDB en este dispositivo (no en la nube).
+
 ARCHIVOS DEL PROYECTO
 ---------------------
 - index.html      → aplicación completa

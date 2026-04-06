@@ -27,9 +27,20 @@
   --line2:#efebe5;
   --ease:cubic-bezier(.33,.72,.25,1);
   --radius:18px;
+  --pad-x:18px;
+  --sheet-pad:22px;
   /* Fuentes del sistema: funcionan 100% offline (sin Google Fonts) */
   --font-sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,sans-serif;
   --font-display:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+}
+@media(min-width:768px){
+  :root{--pad-x:28px;--sheet-pad:28px;--radius:20px}
+}
+@media(min-width:1024px){
+  :root{--pad-x:36px;--sheet-pad:34px}
+}
+@media(min-width:1280px){
+  :root{--pad-x:44px;--sheet-pad:40px}
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-tap-highlight-color:transparent}
@@ -49,18 +60,38 @@ body{
 .app-shell{
   max-width:540px;
   margin:0 auto;
-  padding:0 18px 40px;
+  padding:0 var(--pad-x) max(40px,env(safe-area-inset-bottom));
+}
+@media(min-width:768px){
+  .app-shell{max-width:700px}
+}
+@media(min-width:1024px){
+  .app-shell{max-width:860px}
+}
+@media(min-width:1280px){
+  .app-shell{max-width:960px}
 }
 
 /* —— Masthead —— */
 .masthead{
   background:linear-gradient(155deg,#1c1814 0%,#0f0d0b 48%,#1a1512 100%);
   color:#faf7f2;
-  padding:32px 22px 44px;
-  margin:0 -18px 0;
+  padding:32px clamp(18px,3vw,32px) 44px;
+  margin:0 calc(-1 * var(--pad-x)) 0;
   border-radius:0 0 26px 26px;
   position:relative;
   overflow:hidden;
+}
+@media(min-width:1024px){
+  .masthead{
+    padding-top:40px;
+    padding-bottom:52px;
+    border-radius:0 0 28px 28px;
+  }
+  .htitle{font-size:clamp(2rem,2.8vw,2.65rem)}
+  .hsub{font-size:15px;max-width:42em}
+  .kicker{font-size:11px}
+  .pill{font-size:11px;padding:8px 15px}
 }
 .masthead::before{
   content:"";
@@ -125,7 +156,13 @@ body{
     0 2px 4px rgba(26,21,16,.02),
     0 24px 48px -28px rgba(26,21,16,.18),
     0 12px 24px -16px rgba(26,21,16,.08);
-  padding:26px 22px 22px;
+  padding:26px var(--sheet-pad) 22px;
+}
+@media(min-width:768px){
+  .sheet{margin-top:-32px;padding-top:30px;padding-bottom:26px}
+}
+@media(min-width:1024px){
+  .sheet{margin-top:-36px;padding-top:34px;padding-bottom:30px}
 }
 
 /* —— Progreso (estilo app de tareas) —— */
@@ -212,14 +249,20 @@ body{
   border-bottom:1px solid var(--line2);
   margin-bottom:0;
 }
+@media(min-width:1024px){
+  .ux-hint{font-size:13px;padding-bottom:18px;max-width:56em}
+}
 
 /* —— Navegación fija: menú (móvil) o chips (escritorio) —— */
 .nav-sticky{
   position:sticky;top:0;z-index:20;
   background:var(--surface);
-  margin:0 -22px;
-  padding:14px 22px 16px;
+  margin:0 calc(-1 * var(--sheet-pad));
+  padding:14px var(--sheet-pad) 16px;
   border-bottom:1px solid var(--line);
+}
+@media(min-width:1024px){
+  .nav-sticky{padding-top:16px;padding-bottom:18px}
 }
 .field-label{
   display:block;
@@ -299,6 +342,19 @@ body{
   padding-bottom:max(16px,env(safe-area-inset-bottom));
 }
 .list-picker.is-open .list-picker-sheet{transform:translateY(0)}
+@media(min-width:900px){
+  .list-picker-sheet{
+    left:50%;
+    right:auto;
+    width:min(440px,calc(100vw - 32px));
+    max-height:min(70dvh,520px);
+    border-radius:20px 20px 0 0;
+    border-bottom:none;
+    transform:translateX(-50%) translateY(105%);
+    box-shadow:0 -12px 48px rgba(26,21,16,.15);
+  }
+  .list-picker.is-open .list-picker-sheet{transform:translateX(-50%) translateY(0)}
+}
 .list-picker-handle{
   width:36px;height:4px;border-radius:99px;
   background:var(--line);
@@ -400,11 +456,12 @@ body{
 
 .tw{
   overflow-x:auto;
-  scrollbar-width:none;
-  -ms-overflow-style:none;
+  scrollbar-width:thin;
+  scrollbar-color:var(--line) transparent;
   padding:4px 0 2px;
 }
-.tw::-webkit-scrollbar{display:none}
+.tw::-webkit-scrollbar{height:6px}
+.tw::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}
 .tabs{
   display:flex;
   gap:8px;
@@ -453,7 +510,29 @@ body{
 
 @media(min-width:561px){
   .cat-row{display:none}
-  .nav-sticky{padding-top:16px}
+  .tw{
+    overflow-x:visible;
+    padding:6px 0 4px;
+  }
+  .tabs{
+    flex-wrap:wrap;
+    white-space:normal;
+    gap:10px 12px;
+  }
+  .tab{
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    min-height:46px;
+    padding:10px 18px;
+  }
+  .tab-t{
+    max-width:none;
+    font-size:13px;
+    text-align:left;
+  }
+  .tab-count{font-size:11px;opacity:.8}
 }
 @media(max-width:560px){
   .tabs-outer{display:none}
@@ -600,8 +679,191 @@ body{
   background:var(--accent-soft);
 }
 
-@media(min-width:600px){
-  .masthead{margin:0;border-radius:0 0 22px 22px}
+@media(min-width:900px){
+  .progress-card{padding:22px 24px 20px}
+  .progress-big{font-size:clamp(2.15rem,2.4vw,2.8rem)}
+  .progress-big .n-of{font-size:16px}
+  .progress-badge{min-width:64px;height:64px;font-size:1.3rem;border-radius:16px}
+  .pb{height:10px}
+  .pt{font-size:14px}
+  .progress-sub{font-size:13px}
+  .progress-kicker{font-size:11px}
+}
+@media(min-width:1024px){
+  .sh{top:88px}
+  .st{font-size:11px;letter-spacing:.15em}
+  .content{padding-top:24px}
+  .sec{margin-top:30px}
+  .sec:first-of-type{margin-top:22px}
+  .list-card{border-radius:18px}
+  .item{padding:18px 24px;min-height:58px;gap:18px}
+  .ilab{font-size:16px}
+  .inote{font-size:13px;max-width:min(65ch,100%)}
+  .cb{width:28px;height:28px}
+  .tag{font-size:10px;padding:4px 10px}
+  .footer{margin-top:32px;padding-top:24px}
+  .save-hint{font-size:12px}
+  .btn-r{font-size:12px;padding:12px 22px;border-radius:12px}
+}
+@media(min-width:1280px){
+  body{background-attachment:fixed}
+}
+
+.hidden{display:none!important}
+
+/* —— Proveedores (tarjetas de feria) —— */
+.prov-head{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:18px;
+}
+.prov-head h2{
+  font-family:var(--font-display);
+  font-size:1.35rem;font-weight:600;
+  color:var(--ink);
+  letter-spacing:-.02em;
+}
+.prov-lead{font-size:13px;color:var(--muted);max-width:42em;line-height:1.45}
+.btn-add-prov{
+  font-family:inherit;font-size:13px;font-weight:700;
+  padding:12px 20px;border-radius:12px;border:none;cursor:pointer;
+  background:var(--ink);color:#faf7f2;
+  box-shadow:0 2px 8px rgba(26,21,16,.12);
+  transition:transform .15s var(--ease),opacity .15s;
+}
+.btn-add-prov:hover{opacity:.92}
+.btn-add-prov:active{transform:scale(.98)}
+.prov-grid{
+  display:grid;
+  gap:14px;
+  grid-template-columns:1fr;
+}
+@media(min-width:640px){
+  .prov-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(min-width:1024px){
+  .prov-grid{grid-template-columns:repeat(2,1fr);gap:18px}
+}
+.prov-card{
+  border:1px solid var(--line);
+  border-radius:16px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 1px 3px rgba(26,21,16,.04);
+  display:flex;flex-direction:column;
+}
+.prov-card-img{
+  aspect-ratio:4/3;
+  background:#f0ebe4;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);
+  font-size:12px;
+  overflow:hidden;
+}
+.prov-card-img img{width:100%;height:100%;object-fit:cover;display:block}
+.prov-card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:8px}
+.prov-card-title{font-size:15px;font-weight:700;color:var(--ink);line-height:1.3}
+.prov-card-line{font-size:12px;color:var(--muted);line-height:1.4;word-break:break-word}
+.prov-card-line b{color:var(--ink);font-weight:600}
+.prov-card-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:10px}
+.btn-prov-sm{
+  font-family:inherit;font-size:11px;font-weight:700;
+  padding:8px 14px;border-radius:10px;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);
+}
+.btn-prov-sm:hover{border-color:#c9c2b8;color:var(--ink)}
+.btn-prov-sm.danger:hover{border-color:rgba(181,45,34,.4);color:var(--accent)}
+.prov-empty{
+  text-align:center;padding:36px 20px;
+  border:1px dashed var(--line);border-radius:16px;
+  color:var(--muted);font-size:14px;line-height:1.5;
+}
+.tab.tab-prov.on{
+  background:linear-gradient(135deg,#2a2420,#1c1814);
+  border-color:#3d3530;
+}
+.tab.tab-prov:not(.on){
+  border-color:rgba(181,45,34,.25);
+  background:rgba(181,45,34,.06);
+}
+
+/* Modal proveedor */
+.prov-modal{
+  position:fixed;inset:0;z-index:110;
+  visibility:hidden;pointer-events:none;
+  transition:visibility 0s linear .3s;
+}
+.prov-modal.is-open{visibility:visible;pointer-events:auto;transition-delay:0s}
+.prov-modal-bg{
+  position:absolute;inset:0;background:rgba(20,17,14,.45);
+  opacity:0;transition:opacity .25s var(--ease);
+}
+.prov-modal.is-open .prov-modal-bg{opacity:1}
+.prov-modal-panel{
+  position:absolute;left:0;right:0;bottom:0;max-height:92dvh;
+  background:var(--surface);
+  border-radius:20px 20px 0 0;
+  border:1px solid var(--line);
+  display:flex;flex-direction:column;
+  transform:translateY(108%);
+  transition:transform .3s var(--ease);
+  padding-bottom:max(12px,env(safe-area-inset-bottom));
+}
+.prov-modal.is-open .prov-modal-panel{transform:translateY(0)}
+@media(min-width:700px){
+  .prov-modal-panel{
+    left:50%;right:auto;top:50%;bottom:auto;
+    width:min(520px,calc(100vw - 40px));
+    max-height:88vh;border-radius:20px;
+    transform:translate(-50%,calc(-50% + 20px));
+    opacity:0;
+    transition:transform .28s var(--ease),opacity .28s var(--ease);
+  }
+  .prov-modal.is-open .prov-modal-panel{
+    transform:translate(-50%,-50%);
+    opacity:1;
+  }
+}
+.prov-modal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px;border-bottom:1px solid var(--line2);
+  flex-shrink:0;
+}
+.prov-modal-head h3{font-family:var(--font-display);font-size:1.2rem;font-weight:600}
+.prov-modal-close{
+  width:40px;height:40px;border-radius:12px;border:1px solid var(--line);
+  background:#f7f5f0;font-size:22px;line-height:1;color:var(--muted);cursor:pointer;
+}
+.prov-modal-scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 18px 20px;flex:1}
+.prov-field{margin-bottom:14px}
+.prov-field label{
+  display:block;font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--muted);margin-bottom:6px;
+}
+.prov-field input,.prov-field textarea{
+  width:100%;font-family:inherit;font-size:15px;
+  padding:12px 14px;border-radius:12px;border:1px solid var(--line);
+  background:#fff;color:var(--ink);
+}
+.prov-field textarea{min-height:72px;resize:vertical;line-height:1.45}
+.prov-photo-box{
+  border:2px dashed var(--line);border-radius:14px;padding:14px;
+  text-align:center;background:#faf9f7;
+}
+.prov-photo-preview{
+  max-height:180px;max-width:100%;border-radius:10px;margin-top:10px;
+  object-fit:contain;
+}
+.prov-photo-input-wrap{margin-top:8px}
+.prov-modal-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.btn-prov-save{
+  flex:1;min-width:140px;font-family:inherit;font-size:14px;font-weight:700;
+  padding:14px 20px;border-radius:12px;border:none;cursor:pointer;
+  background:var(--ok);color:#fff;
+}
+.btn-prov-cancel{
+  font-family:inherit;font-size:14px;font-weight:600;
+  padding:14px 20px;border-radius:12px;border:1px solid var(--line);
+  background:var(--surface);color:var(--muted);cursor:pointer;
 }
 </style>
 </head>
@@ -624,6 +886,7 @@ body{
   </header>
 
   <div class="sheet">
+    <div id="checklistOnly">
     <div class="progress-card">
       <div class="progress-head">
         <div>
@@ -642,6 +905,7 @@ body{
     </div>
 
     <p class="ux-hint">Toca la fila o el círculo para marcar. En el teléfono, pulsa «Lista» y elige en el panel; en pantalla ancha, usa los chips.</p>
+    </div>
 
     <div class="nav-sticky">
       <div class="cat-row">
@@ -658,10 +922,44 @@ body{
 
     <div class="content" id="content" role="tabpanel"></div>
 
-    <footer class="footer">
-      <p class="save-hint">Guardado en este dispositivo</p>
-      <button type="button" class="btn-r" onclick="resetAll()">Reiniciar</button>
+    <footer class="footer" id="appFooter">
+      <p class="save-hint" id="footerHint">Guardado en este dispositivo</p>
+      <button type="button" class="btn-r" id="btnResetChecklist" onclick="resetAll()">Reiniciar</button>
     </footer>
+  </div>
+</div>
+
+<div class="prov-modal" id="provModal" aria-hidden="true">
+  <div class="prov-modal-bg" id="provModalBg"></div>
+  <div class="prov-modal-panel" role="dialog" aria-modal="true" aria-labelledby="provModalTitle">
+    <div class="prov-modal-head">
+      <h3 id="provModalTitle">Nuevo proveedor</h3>
+      <button type="button" class="prov-modal-close" id="provModalClose" aria-label="Cerrar">×</button>
+    </div>
+    <div class="prov-modal-scroll">
+      <form id="provForm">
+        <input type="hidden" id="provEditId" value="">
+        <div class="prov-field"><label for="provCompany">Empresa o contacto</label><input id="provCompany" name="company" autocomplete="organization" placeholder="Nombre en la tarjeta"></div>
+        <div class="prov-field"><label for="provWechat">WeChat</label><input id="provWechat" name="wechat" placeholder="ID o teléfono WeChat"></div>
+        <div class="prov-field"><label for="provEmail">Correo</label><input id="provEmail" name="email" type="email" autocomplete="email" placeholder="email@…"></div>
+        <div class="prov-field"><label for="provPhone">Teléfono</label><input id="provPhone" name="phone" type="tel" autocomplete="tel"></div>
+        <div class="prov-field"><label for="provStand">Stand / pabellón / ciudad</label><input id="provStand" name="stand" placeholder="Ej. 3.1 B12 · Guangzhou"></div>
+        <div class="prov-field"><label for="provProvides">Qué provee</label><textarea id="provProvides" name="provides" placeholder="Producto, categoría, MOQ si lo anotaste…"></textarea></div>
+        <div class="prov-field"><label for="provNotes">Notas</label><textarea id="provNotes" name="notes" placeholder="Precio FOB, certificados, impresiones…"></textarea></div>
+        <div class="prov-field">
+          <label for="provPhoto" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px;cursor:pointer">Foto de la tarjeta</label>
+          <div class="prov-photo-box">
+            <input type="file" id="provPhoto" accept="image/*" capture="environment" class="hidden">
+            <button type="button" class="btn-prov-sm" id="provPhotoBtn">Elegir o tomar foto</button>
+            <div id="provPhotoPreviewWrap" class="hidden"><img id="provPhotoPreview" class="prov-photo-preview" alt="Vista previa tarjeta"></div>
+          </div>
+        </div>
+        <div class="prov-modal-actions">
+          <button type="button" class="btn-prov-cancel" id="provModalCancel">Cancelar</button>
+          <button type="submit" class="btn-prov-save">Guardar</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -815,8 +1113,233 @@ const data={
 };
 
 const TABS=Object.keys(data);
+const TAB_PROV='Proveedores';
+const TAB_LIST=TABS.concat([TAB_PROV]);
 let active=TABS[0];
+let supplierCountCache=0;
+let pendingCardBlob=null;
+let provPhotoObjectUrl=null;
 const STORE_KEY='canton2026_v1';
+const DB_NAME='canton_suppliers_v1';
+const DB_STORE='suppliers';
+let dbPromise=null;
+
+function getDb(){
+  if(dbPromise)return dbPromise;
+  dbPromise=new Promise(function(res,rej){
+    const req=indexedDB.open(DB_NAME,1);
+    req.onerror=function(){rej(req.error);};
+    req.onsuccess=function(){res(req.result);};
+    req.onupgradeneeded=function(e){
+      const db=e.target.result;
+      if(!db.objectStoreNames.contains(DB_STORE))
+        db.createObjectStore(DB_STORE,{keyPath:'id'});
+    };
+  });
+  return dbPromise;
+}
+function getAllSuppliers(){
+  return getDb().then(function(db){
+    return new Promise(function(res,rej){
+      const tx=db.transaction(DB_STORE,'readonly');
+      const q=tx.objectStore(DB_STORE).getAll();
+      q.onsuccess=function(){
+        var arr=(q.result||[]).slice().sort(function(a,b){return(b.createdAt||0)-(a.createdAt||0);});
+        res(arr);
+      };
+      q.onerror=function(){rej(q.error);};
+    });
+  });
+}
+function getSupplier(id){
+  return getDb().then(function(db){
+    return new Promise(function(res,rej){
+      const tx=db.transaction(DB_STORE,'readonly');
+      const q=tx.objectStore(DB_STORE).get(id);
+      q.onsuccess=function(){res(q.result);};
+      q.onerror=function(){rej(q.error);};
+    });
+  });
+}
+function putSupplier(rec){
+  return getDb().then(function(db){
+    return new Promise(function(res,rej){
+      const tx=db.transaction(DB_STORE,'readwrite');
+      tx.objectStore(DB_STORE).put(rec);
+      tx.oncomplete=function(){res();};
+      tx.onerror=function(){rej(tx.error);};
+    });
+  });
+}
+function deleteSupplier(id){
+  return getDb().then(function(db){
+    return new Promise(function(res,rej){
+      const tx=db.transaction(DB_STORE,'readwrite');
+      tx.objectStore(DB_STORE).delete(id);
+      tx.oncomplete=function(){res();};
+      tx.onerror=function(){rej(tx.error);};
+    });
+  });
+}
+function refreshSupplierCount(){
+  return getAllSuppliers().then(function(all){
+    supplierCountCache=all.length;
+  }).catch(function(){supplierCountCache=0;});
+}
+function escapeHtml(t){
+  var d=document.createElement('div');
+  d.textContent=t;
+  return d.innerHTML;
+}
+function compressImageBlob(blob,maxW,maxBytes){
+  if(!blob||!blob.type||blob.type.indexOf('image/')!==0)return Promise.resolve(blob);
+  if(blob.size<=maxBytes)return Promise.resolve(blob);
+  return new Promise(function(res){
+    var img=new Image();
+    var u=URL.createObjectURL(blob);
+    img.onload=function(){
+      URL.revokeObjectURL(u);
+      var w=img.width,h=img.height;
+      if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+      var c=document.createElement('canvas');
+      c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      c.toBlob(function(b){
+        if(b&&b.size<blob.size)res(b);else res(blob);
+      },'image/jpeg',0.82);
+    };
+    img.onerror=function(){URL.revokeObjectURL(u);res(blob);};
+    img.src=u;
+  });
+}
+function revokeProvPhotoUrl(){
+  if(provPhotoObjectUrl){URL.revokeObjectURL(provPhotoObjectUrl);provPhotoObjectUrl=null;}
+}
+function closeProvModal(){
+  revokeProvPhotoUrl();
+  var m=document.getElementById('provModal');
+  if(m){m.classList.remove('is-open');m.setAttribute('aria-hidden','true');}
+  document.body.style.overflow='';
+  pendingCardBlob=null;
+  var pi=document.getElementById('provPhoto');
+  if(pi)pi.value='';
+}
+function openProvModal(editId){
+  revokeProvPhotoUrl();
+  pendingCardBlob=null;
+  var form=document.getElementById('provForm');
+  if(form)form.reset();
+  var eid=document.getElementById('provEditId');
+  if(eid)eid.value=editId||'';
+  var wrap=document.getElementById('provPhotoPreviewWrap');
+  if(wrap)wrap.classList.add('hidden');
+  var title=document.getElementById('provModalTitle');
+  if(title)title.textContent=editId?'Editar proveedor':'Nuevo proveedor';
+  var m=document.getElementById('provModal');
+  if(editId){
+    getSupplier(editId).then(function(s){
+      if(!s)return;
+      document.getElementById('provCompany').value=s.company||'';
+      document.getElementById('provWechat').value=s.wechat||'';
+      document.getElementById('provEmail').value=s.email||'';
+      document.getElementById('provPhone').value=s.phone||'';
+      document.getElementById('provStand').value=s.stand||'';
+      document.getElementById('provProvides').value=s.provides||'';
+      document.getElementById('provNotes').value=s.notes||'';
+      if(s.cardBlob){
+        provPhotoObjectUrl=URL.createObjectURL(s.cardBlob);
+        document.getElementById('provPhotoPreview').src=provPhotoObjectUrl;
+        var w=document.getElementById('provPhotoPreviewWrap');
+        if(w)w.classList.remove('hidden');
+      }
+    });
+  }
+  if(m){m.classList.add('is-open');m.setAttribute('aria-hidden','false');}
+  document.body.style.overflow='hidden';
+}
+async function renderSuppliersView(container){
+  var list=await getAllSuppliers();
+  container.innerHTML='';
+  var head=document.createElement('div');
+  head.className='prov-head';
+  var left=document.createElement('div');
+  var h2=document.createElement('h2');
+  h2.textContent='Tarjetas de proveedores';
+  var lead=document.createElement('p');
+  lead.className='prov-lead';
+  lead.textContent='Sube la foto de la tarjeta y anota WeChat, correo, qué proveen y notas. Los datos se guardan solo en este dispositivo.';
+  left.append(h2,lead);
+  var btn=document.createElement('button');
+  btn.type='button';
+  btn.className='btn-add-prov';
+  btn.textContent='+ Añadir proveedor';
+  btn.onclick=function(){openProvModal();};
+  head.append(left,btn);
+  container.appendChild(head);
+  if(list.length===0){
+    var em=document.createElement('p');
+    em.className='prov-empty';
+    em.textContent='Todavía no hay tarjetas. Pulsa «Añadir proveedor» para fotografiar o elegir la primera.';
+    container.appendChild(em);
+    return;
+  }
+  var grid=document.createElement('div');
+  grid.className='prov-grid';
+  list.forEach(function(s){
+    var card=document.createElement('article');
+    card.className='prov-card';
+    var imgWrap=document.createElement('div');
+    imgWrap.className='prov-card-img';
+    if(s.cardBlob){
+      var im=document.createElement('img');
+      im.src=URL.createObjectURL(s.cardBlob);
+      im.alt='Tarjeta de visita';
+      imgWrap.appendChild(im);
+    }else{
+      imgWrap.textContent='Sin foto';
+    }
+    var body=document.createElement('div');
+    body.className='prov-card-body';
+    var t=document.createElement('div');
+    t.className='prov-card-title';
+    t.textContent=s.company||'Sin nombre';
+    body.appendChild(t);
+    var rows=[['wechat','WeChat'],['email','Correo'],['phone','Teléfono'],['stand','Stand / lugar'],['provides','Qué provee'],['notes','Notas']];
+    rows.forEach(function(pair){
+      if(!s[pair[0]])return;
+      var p=document.createElement('div');
+      p.className='prov-card-line';
+      p.innerHTML='<b>'+pair[1]+':</b> '+escapeHtml(s[pair[0]]);
+      body.appendChild(p);
+    });
+    var actions=document.createElement('div');
+    actions.className='prov-card-actions';
+    var ed=document.createElement('button');
+    ed.type='button';
+    ed.className='btn-prov-sm';
+    ed.textContent='Editar';
+    ed.onclick=function(){openProvModal(s.id);};
+    var del=document.createElement('button');
+    del.type='button';
+    del.className='btn-prov-sm danger';
+    del.textContent='Eliminar';
+    del.onclick=function(){
+      if(!confirm('¿Eliminar este proveedor y su foto?'))return;
+      deleteSupplier(s.id).then(function(){
+        return refreshSupplierCount();
+      }).then(function(){
+        renderTabs();
+        renderContent();
+        updateStats();
+      });
+    };
+    actions.append(ed,del);
+    body.appendChild(actions);
+    card.append(imgWrap,body);
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
+}
 
 function loadChecked(){
   try{return JSON.parse(localStorage.getItem(STORE_KEY)||'{}')}catch(e){return{}}
@@ -853,6 +1376,7 @@ function countAll(){
 }
 
 function countTab(tabName){
+  if(tabName===TAB_PROV)return{tot:0,done:0};
   let tot=0,done=0;
   Object.entries(data[tabName]).forEach(([s,items])=>{
     items.forEach((_,i)=>{
@@ -866,6 +1390,10 @@ function countTab(tabName){
 function setCatTriggerLabel(){
   const el=document.getElementById('catTriggerText');
   if(!el)return;
+  if(active===TAB_PROV){
+    el.textContent='Proveedores'+(supplierCountCache?' · '+supplierCountCache+' tarj.':'');
+    return;
+  }
   const r=countTab(active);
   el.textContent=active+(r.tot?' · '+r.done+'/'+r.tot:'');
 }
@@ -874,20 +1402,20 @@ function buildListPickerList(){
   const list=document.getElementById('listPickerList');
   if(!list)return;
   list.innerHTML='';
-  TABS.forEach(tab=>{
-    const r=countTab(tab);
+  TAB_LIST.forEach(tab=>{
+    const r=tab===TAB_PROV?null:countTab(tab);
     const btn=document.createElement('button');
     btn.type='button';
     btn.setAttribute('role','option');
     btn.className='list-picker-opt'+(tab===active?' is-on':'');
-    if(r.tot>0&&r.done===r.tot)btn.classList.add('lpo-done');
+    if(r&&r.tot>0&&r.done===r.tot)btn.classList.add('lpo-done');
     btn.setAttribute('aria-selected',tab===active?'true':'false');
     const name=document.createElement('span');
     name.className='lpo-name';
     name.textContent=tab;
     const cnt=document.createElement('span');
     cnt.className='lpo-count';
-    cnt.textContent=r.done+'/'+r.tot;
+    cnt.textContent=tab===TAB_PROV?String(supplierCountCache)+' tarj.':(r&&r.tot?r.done+'/'+r.tot:'0/0');
     const chk=document.createElement('span');
     chk.className='lpo-check';
     chk.setAttribute('aria-hidden','true');
@@ -896,6 +1424,7 @@ function buildListPickerList(){
     btn.addEventListener('click',()=>{
       active=tab;
       closeListPicker();
+      closeProvModal();
       renderTabs();
       renderContent();
       updateStats();
@@ -930,14 +1459,37 @@ function refreshSelectAndTabs(){
   document.querySelectorAll('#tabs .tab').forEach(btn=>{
     const t=btn.dataset.tab;
     if(!t)return;
-    const r=countTab(t);
     const mc=btn.querySelector('.tab-count');
+    if(t===TAB_PROV){
+      if(mc)mc.textContent=String(supplierCountCache);
+      return;
+    }
+    const r=countTab(t);
     if(mc)mc.textContent=r.tot?r.done+'/'+r.tot:'0/0';
     btn.classList.toggle('tab-all-done',r.tot>0&&r.done===r.tot);
   });
 }
 
 function updateStats(){
+  const chk=document.getElementById('checklistOnly');
+  const btnReset=document.getElementById('btnResetChecklist');
+  const foot=document.getElementById('footerHint');
+  if(active===TAB_PROV){
+    if(chk)chk.classList.add('hidden');
+    if(btnReset)btnReset.classList.add('hidden');
+    if(foot)foot.textContent='Proveedores guardados en este dispositivo (IndexedDB).';
+    const pt=document.getElementById('pt');
+    if(pt){
+      pt.textContent=supplierCountCache===0
+        ?'Añade tarjetas con foto y datos de contacto.'
+        :supplierCountCache+' tarjeta'+(supplierCountCache!==1?'s':'')+' guardada'+(supplierCountCache!==1?'s':'')+'.';
+    }
+    refreshSelectAndTabs();
+    return;
+  }
+  if(chk)chk.classList.remove('hidden');
+  if(btnReset)btnReset.classList.remove('hidden');
+  if(foot)foot.textContent='Guardado en este dispositivo';
   const{tot,done}=countAll();
   const pend=tot-done;
   const cat=countTab(active);
@@ -964,18 +1516,28 @@ function renderTabs(){
   const c=document.getElementById('tabs');
   c.innerHTML='';
   c.setAttribute('role','tablist');
-  TABS.forEach(tab=>{
-    const r=countTab(tab);
+  TAB_LIST.forEach(tab=>{
     const b=document.createElement('button');
     b.type='button';
     b.dataset.tab=tab;
     b.className='tab'+(tab===active?' on':'');
-    if(r.tot>0&&r.done===r.tot)b.classList.add('tab-all-done');
+    if(tab===TAB_PROV)b.classList.add('tab-prov');
+    let countStr;
+    let r={tot:0,done:0};
+    if(tab===TAB_PROV){
+      countStr=String(supplierCountCache);
+    }else{
+      r=countTab(tab);
+      if(r.tot>0&&r.done===r.tot)b.classList.add('tab-all-done');
+      countStr=r.tot?r.done+'/'+r.tot:'0/0';
+    }
     b.setAttribute('role','tab');
     b.setAttribute('aria-selected',tab===active?'true':'false');
-    b.innerHTML='<span class="tab-t">'+tab+'</span><span class="tab-count">'+(r.tot?r.done+'/'+r.tot:'0/0')+'</span>';
+    b.innerHTML='<span class="tab-t">'+tab+'</span><span class="tab-count">'+countStr+'</span>';
     b.onclick=()=>{
       active=tab;
+      closeListPicker();
+      closeProvModal();
       renderTabs();
       renderContent();
       updateStats();
@@ -986,7 +1548,12 @@ function renderTabs(){
 }
 
 function renderContent(){
-  const c=document.getElementById('content');c.innerHTML='';
+  const c=document.getElementById('content');
+  c.innerHTML='';
+  if(active===TAB_PROV){
+    renderSuppliersView(c);
+    return;
+  }
   Object.entries(data[active]).forEach(([sec,items])=>{
     const s=document.createElement('section');s.className='sec';
     const h=document.createElement('div');h.className='sh';
@@ -1044,13 +1611,74 @@ function resetAll(){
   if(bd)bd.addEventListener('click',closeListPicker);
   if(cl)cl.addEventListener('click',closeListPicker);
   document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'&&listPickerEl&&listPickerEl.classList.contains('is-open'))closeListPicker();
+    if(e.key!=='Escape')return;
+    const pm=document.getElementById('provModal');
+    if(pm&&pm.classList.contains('is-open')){closeProvModal();return;}
+    if(listPickerEl&&listPickerEl.classList.contains('is-open'))closeListPicker();
   });
 })();
 
-renderTabs();
-renderContent();
-updateStats();
+(function initProvUi(){
+  const bg=document.getElementById('provModalBg');
+  const cl=document.getElementById('provModalClose');
+  const ca=document.getElementById('provModalCancel');
+  const pb=document.getElementById('provPhotoBtn');
+  const ph=document.getElementById('provPhoto');
+  if(bg)bg.addEventListener('click',closeProvModal);
+  if(cl)cl.addEventListener('click',closeProvModal);
+  if(ca)ca.addEventListener('click',closeProvModal);
+  if(pb&&ph)pb.addEventListener('click',function(){ph.click();});
+  if(ph)ph.addEventListener('change',function(e){
+    const f=e.target.files[0];
+    if(!f)return;
+    pendingCardBlob=f;
+    revokeProvPhotoUrl();
+    provPhotoObjectUrl=URL.createObjectURL(f);
+    document.getElementById('provPhotoPreview').src=provPhotoObjectUrl;
+    document.getElementById('provPhotoPreviewWrap').classList.remove('hidden');
+  });
+  const fm=document.getElementById('provForm');
+  if(fm)fm.addEventListener('submit',function(e){
+    e.preventDefault();
+    (async function(){
+      const editId=document.getElementById('provEditId').value;
+      const id=editId||(typeof crypto!=='undefined'&&crypto.randomUUID?crypto.randomUUID():'p_'+Date.now()+'_'+Math.random().toString(36).slice(2,10));
+      let blob=pendingCardBlob;
+      let prev=null;
+      if(editId)prev=await getSupplier(editId);
+      if(!blob&&prev&&prev.cardBlob)blob=prev.cardBlob;
+      if(blob)blob=await compressImageBlob(blob,1600,900000);
+      const created=prev?prev.createdAt:Date.now();
+      const rec={
+        id:id,
+        createdAt:created,
+        company:document.getElementById('provCompany').value.trim(),
+        wechat:document.getElementById('provWechat').value.trim(),
+        email:document.getElementById('provEmail').value.trim(),
+        phone:document.getElementById('provPhone').value.trim(),
+        stand:document.getElementById('provStand').value.trim(),
+        provides:document.getElementById('provProvides').value.trim(),
+        notes:document.getElementById('provNotes').value.trim()
+      };
+      if(blob)rec.cardBlob=blob;
+      await putSupplier(rec);
+      closeProvModal();
+      await refreshSupplierCount();
+      renderTabs();
+      renderContent();
+      updateStats();
+    })().catch(function(err){
+      alert('No se pudo guardar. Revisa espacio en el dispositivo o permisos del navegador.');
+      console.error(err);
+    });
+  });
+})();
+
+refreshSupplierCount().then(function(){
+  renderTabs();
+  renderContent();
+  updateStats();
+});
 
 /* PWA + offline: primera visita con internet; luego la app sirve desde caché */
 if('serviceWorker'in navigator&&(location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
