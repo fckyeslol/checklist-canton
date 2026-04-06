@@ -50,5 +50,3 @@ NOTAS IMPORTANTES
 Hotel en Guangzhou:
 广东省广州市海珠区沙园街道
 工业大道北110号海珠新天地13楼1314房
-
-Creado con Claude · Anthropic · 2026
