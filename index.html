@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist · Feria de Cantón 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,650;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ebe8e1;
+  --bg2:#f5f3ee;
+  --surface:#fffcf9;
+  --ink:#14110e;
+  --accent:#b52d22;
+  --accent-soft:rgba(181,45,34,.12);
+  --ok:#1f5c3a;
+  --ok-soft:rgba(31,92,58,.1);
+  --muted:#6b645c;
+  --line:#e5e0d8;
+  --line2:#efebe5;
+  --ease:cubic-bezier(.33,.72,.25,1);
+  --radius:18px;
+  --font-sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --font-display:"Fraunces",Georgia,serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-tap-highlight-color:transparent}
+body{
+  font-family:var(--font-sans);
+  background:var(--bg);
+  background-image:
+    radial-gradient(ellipse 120% 80% at 50% -20%,rgba(255,252,249,.9),transparent 55%),
+    linear-gradient(180deg,var(--bg2) 0%,var(--bg) 45%);
+  color:var(--ink);
+  min-height:100dvh;
+  padding-bottom:max(32px,env(safe-area-inset-bottom));
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+
+.app-shell{
+  max-width:540px;
+  margin:0 auto;
+  padding:0 18px 40px;
+}
+
+/* —— Masthead —— */
+.masthead{
+  background:linear-gradient(155deg,#1c1814 0%,#0f0d0b 48%,#1a1512 100%);
+  color:#faf7f2;
+  padding:32px 22px 44px;
+  margin:0 -18px 0;
+  border-radius:0 0 26px 26px;
+  position:relative;
+  overflow:hidden;
+}
+.masthead::before{
+  content:"";
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 55% at 88% 8%,rgba(200,57,43,.22),transparent 52%);
+  pointer-events:none;
+}
+.masthead::after{
+  content:"";
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
+}
+.masthead-inner{position:relative;z-index:1}
+.kicker{
+  font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:#e8a8a0;margin-bottom:12px;
+}
+.htitle{
+  font-family:var(--font-display);
+  font-size:clamp(1.65rem,5.5vw,2.05rem);
+  font-weight:600;
+  font-variation-settings:"opsz" 72;
+  line-height:1.2;
+  letter-spacing:-.02em;
+  margin-bottom:10px;
+  color:#faf7f2;
+}
+.htitle em{color:#e85d4c;font-style:italic;font-weight:500}
+.hsub{
+  font-size:13px;font-weight:500;color:rgba(250,247,242,.48);
+  letter-spacing:.01em;
+}
+.pills{
+  display:flex;flex-wrap:wrap;gap:7px;
+  margin-top:22px;
+}
+.pill{
+  font-size:10px;font-weight:600;
+  letter-spacing:.04em;
+  padding:7px 12px;
+  border-radius:100px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  color:rgba(250,247,242,.72);
+}
+.pill.r{
+  border-color:rgba(232,93,76,.35);
+  background:rgba(232,93,76,.12);
+  color:#f5c9c3;
+}
+
+/* —— Floating sheet —— */
+.sheet{
+  background:var(--surface);
+  margin-top:-28px;
+  position:relative;
+  z-index:2;
+  border-radius:var(--radius);
+  border:1px solid rgba(26,21,16,.06);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.8) inset,
+    0 2px 4px rgba(26,21,16,.02),
+    0 24px 48px -28px rgba(26,21,16,.18),
+    0 12px 24px -16px rgba(26,21,16,.08);
+  padding:26px 22px 22px;
+}
+
+/* —— Progreso (estilo app de tareas) —— */
+.progress-card{
+  background:#f7f5f0;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 18px 16px;
+  margin-bottom:14px;
+}
+.progress-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:14px;
+}
+.progress-kicker{
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--muted);
+  margin-bottom:6px;
+}
+.progress-big{
+  font-family:var(--font-display);
+  font-size:clamp(2rem,8vw,2.35rem);
+  font-weight:600;
+  font-variation-settings:"opsz" 60;
+  color:var(--ink);
+  line-height:1;
+  letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;
+}
+.progress-big .n-done{color:var(--ok)}
+.progress-big .n-of{
+  font-family:var(--font-sans);
+  font-size:15px;font-weight:600;
+  color:var(--muted);
+  margin:0 .35em;
+  vertical-align:middle;
+}
+.progress-big .n-tot{
+  font-family:var(--font-display);
+  color:var(--ink);
+}
+.progress-sub{
+  font-size:12px;color:var(--muted);
+  margin-top:8px;font-weight:500;
+  line-height:1.35;
+}
+.progress-badge{
+  flex-shrink:0;
+  min-width:56px;height:56px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:14px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  font-family:var(--font-display);
+  font-size:1.15rem;font-weight:600;
+  color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.pb{
+  height:8px;
+  background:#e8e4dc;
+  border-radius:99px;
+  overflow:hidden;
+}
+.pf{
+  height:100%;
+  width:0%;
+  border-radius:99px;
+  background:linear-gradient(90deg,#174a2e,var(--ok));
+  transition:width .55s var(--ease);
+}
+.pt{
+  font-size:13px;font-weight:500;color:var(--muted);
+  margin-top:12px;
+  line-height:1.45;
+}
+.ux-hint{
+  font-size:12px;color:var(--muted);
+  line-height:1.4;
+  padding:0 2px 16px;
+  border-bottom:1px solid var(--line2);
+  margin-bottom:0;
+}
+
+/* —— Navegación fija: menú (móvil) o chips (escritorio) —— */
+.nav-sticky{
+  position:sticky;top:0;z-index:20;
+  background:var(--surface);
+  margin:0 -22px;
+  padding:14px 22px 16px;
+  border-bottom:1px solid var(--line);
+}
+.field-label{
+  display:block;
+  font-size:11px;font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+/* Disparador móvil (sin <select> nativo = sin menú feo del sistema) */
+.cat-trigger{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  font-family:inherit;
+  font-size:16px;
+  font-weight:600;
+  color:var(--ink);
+  text-align:left;
+  padding:15px 16px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:#fff;
+  cursor:pointer;
+  box-shadow:0 1px 3px rgba(26,21,16,.05);
+  transition:border-color .2s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease);
+}
+.cat-trigger:hover{
+  border-color:#d4cdc4;
+  background:#faf9f7;
+}
+.cat-trigger:active{background:#f3f1ec}
+.cat-trigger:focus{outline:none}
+.cat-trigger:focus-visible{
+  outline:2px solid rgba(31,92,58,.35);
+  outline-offset:2px;
+}
+.cat-trigger-text{flex:1;min-width:0;line-height:1.3}
+.cat-trigger-chev{
+  flex-shrink:0;
+  width:20px;height:20px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);
+  opacity:.85;
+}
+
+/* Hoja inferior — listas */
+.list-picker{
+  position:fixed;inset:0;z-index:100;
+  visibility:hidden;pointer-events:none;
+  transition:visibility 0s linear .32s;
+}
+.list-picker.is-open{
+  visibility:visible;pointer-events:auto;
+  transition-delay:0s;
+}
+.list-picker-backdrop{
+  position:absolute;inset:0;
+  background:rgba(20,17,14,.42);
+  opacity:0;
+  transition:opacity .28s var(--ease);
+}
+.list-picker.is-open .list-picker-backdrop{opacity:1}
+.list-picker-sheet{
+  position:absolute;left:0;right:0;bottom:0;
+  max-height:min(78dvh,560px);
+  background:var(--surface);
+  border-radius:20px 20px 0 0;
+  border:1px solid var(--line);
+  border-bottom:none;
+  box-shadow:0 -8px 40px rgba(26,21,16,.12);
+  display:flex;flex-direction:column;
+  transform:translateY(105%);
+  transition:transform .32s var(--ease);
+  padding-bottom:max(16px,env(safe-area-inset-bottom));
+}
+.list-picker.is-open .list-picker-sheet{transform:translateY(0)}
+.list-picker-handle{
+  width:36px;height:4px;border-radius:99px;
+  background:var(--line);
+  margin:10px auto 6px;
+  flex-shrink:0;
+}
+.list-picker-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 16px 14px;
+  border-bottom:1px solid var(--line2);
+  flex-shrink:0;
+}
+.list-picker-title{
+  font-family:var(--font-display);
+  font-size:1.25rem;font-weight:600;
+  color:var(--ink);
+  letter-spacing:-.02em;
+}
+.list-picker-close{
+  width:40px;height:40px;border-radius:12px;
+  border:1px solid var(--line);
+  background:#f7f5f0;
+  font-size:22px;line-height:1;
+  color:var(--muted);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s var(--ease),color .15s var(--ease);
+}
+.list-picker-close:hover{background:#ebe8e1;color:var(--ink)}
+.list-picker-list{
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  padding:8px 12px 12px;
+  flex:1;
+}
+.list-picker-opt{
+  width:100%;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;
+  padding:16px 14px;
+  margin-bottom:6px;
+  border-radius:14px;
+  border:1px solid var(--line2);
+  background:#fff;
+  font-family:inherit;
+  font-size:16px;font-weight:600;
+  color:var(--ink);
+  text-align:left;
+  cursor:pointer;
+  transition:background .15s var(--ease),border-color .15s var(--ease);
+}
+.list-picker-opt:hover,.list-picker-opt:focus-visible{
+  background:#faf9f7;
+  border-color:#dcd6ce;
+  outline:none;
+}
+.list-picker-opt.is-on{
+  border-color:rgba(31,92,58,.45);
+  background:rgba(31,92,58,.06);
+  box-shadow:inset 0 0 0 1px rgba(31,92,58,.08);
+}
+.list-picker-opt.lpo-done:not(.is-on){
+  border-color:rgba(31,92,58,.2);
+  background:rgba(31,92,58,.04);
+}
+.lpo-name{flex:1;min-width:0;line-height:1.3}
+.lpo-count{
+  font-size:13px;font-weight:700;
+  color:var(--muted);
+  font-variant-numeric:tabular-nums;
+  padding:4px 10px;
+  border-radius:100px;
+  background:#f3f1ec;
+}
+.list-picker-opt.is-on .lpo-count{
+  background:rgba(31,92,58,.15);
+  color:var(--ok);
+}
+.lpo-check{
+  width:22px;height:22px;
+  border-radius:50%;
+  border:2px solid var(--line);
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.list-picker-opt.is-on .lpo-check{
+  border-color:var(--ok);
+  background:var(--ok);
+  color:#fff;
+  font-size:12px;
+  line-height:1;
+}
+@media(prefers-reduced-motion:reduce){
+  .list-picker,.list-picker-backdrop,.list-picker-sheet{transition-duration:.01ms}
+}
+.cat-row{display:block}
+.tabs-outer{padding-top:4px}
+.tabs-label{display:none}
+
+.tw{
+  overflow-x:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  padding:4px 0 2px;
+}
+.tw::-webkit-scrollbar{display:none}
+.tabs{
+  display:flex;
+  gap:8px;
+  white-space:nowrap;
+}
+.tab{
+  flex-shrink:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  min-height:48px;
+  padding:8px 16px;
+  border-radius:100px;
+  border:1px solid var(--line);
+  background:#f3f1ec;
+  cursor:pointer;
+  font-family:inherit;
+  color:var(--muted);
+  transition:background .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease),transform .15s var(--ease);
+}
+.tab:hover{
+  border-color:#c9c2b8;
+  color:var(--ink);
+  background:#ebe8e1;
+}
+.tab:active{transform:scale(.98)}
+.tab.on{
+  background:var(--ink);
+  border-color:var(--ink);
+  color:#faf7f2;
+}
+.tab-all-done:not(.on){
+  border-color:rgba(31,92,58,.4);
+  background:rgba(31,92,58,.07);
+  color:#2d4a38;
+}
+.tab-t{font-size:12px;font-weight:700;line-height:1.2;text-align:center;max-width:120px}
+.tab-count{
+  font-size:10px;font-weight:700;
+  opacity:.75;
+  font-variant-numeric:tabular-nums;
+}
+.tab.on .tab-count{opacity:.85;color:#c8c4be}
+
+@media(min-width:561px){
+  .cat-row{display:none}
+  .nav-sticky{padding-top:16px}
+}
+@media(max-width:560px){
+  .tabs-outer{display:none}
+}
+
+.content{padding-top:18px}
+
+.sec{margin-top:26px}
+.sec:first-of-type{margin-top:20px}
+.sh{
+  margin-bottom:10px;
+  padding:6px 0;
+}
+@media(min-width:561px){
+  .sh{
+    position:sticky;
+    top:52px;
+    z-index:8;
+    background:linear-gradient(180deg,var(--surface) 88%,rgba(255,252,249,0));
+    margin:0 -4px;
+    padding:8px 4px 10px;
+  }
+}
+.st{
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--muted);
+  line-height:1.4;
+}
+
+.list-card{
+  border:1px solid var(--line);
+  border-radius:16px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 1px 3px rgba(26,21,16,.04);
+}
+.list-card .item:first-child{border-top:none}
+
+.item{
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  min-height:56px;
+  padding:16px 16px 16px 14px;
+  border-top:1px solid var(--line2);
+  cursor:pointer;
+  transition:background .18s var(--ease);
+  -webkit-user-select:none;user-select:none;
+}
+.item:hover,.item:focus-within{background:#faf9f7}
+.item:focus-visible{outline:2px solid var(--accent);outline-offset:-4px}
+.item.done{background:rgba(31,92,58,.04)}
+.item.done .ilab{
+  text-decoration:line-through;
+  color:#8a8279;
+  font-weight:500;
+}
+.item.done .inote{opacity:.72}
+
+.item-body{flex:1;min-width:0}
+
+.cb{
+  width:26px;height:26px;flex-shrink:0;margin-top:1px;
+  border:2px solid #bfb6ab;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--surface);
+  transition:border-color .2s var(--ease),background .25s var(--ease),transform .25s var(--ease),box-shadow .2s var(--ease);
+}
+.item:hover .cb,.item:focus-within .cb{border-color:#8a8178}
+.item.done .cb{
+  background:var(--ok);
+  border-color:var(--ok);
+  box-shadow:0 2px 10px var(--ok-soft);
+}
+.cb.pop{animation:cbPop .45s var(--ease)}
+@keyframes cbPop{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.08)}
+  100%{transform:scale(1)}
+}
+@media (prefers-reduced-motion:reduce){
+  .cb.pop{animation:none}
+  .pf{transition-duration:.2s}
+  .item,.tab{transition-duration:.12s}
+}
+
+.ilab{
+  font-size:15px;font-weight:600;color:var(--ink);
+  line-height:1.4;
+  display:flex;align-items:center;flex-wrap:wrap;gap:8px;
+}
+.inote{
+  font-size:12px;font-weight:400;color:var(--muted);
+  margin-top:5px;line-height:1.5;
+  max-width:46ch;
+}
+
+.tag{
+  font-size:9px;font-weight:700;
+  padding:3px 8px;
+  border-radius:6px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  border:1px solid transparent;
+}
+.t-imp{background:#f3effa;color:#4f3d7a;border-color:#e4daf0}
+.t-foto{background:#faf6eb;color:#6b5410;border-color:#ede4cf}
+.t-cafe{background:#eef4ee;color:#2d5a30;border-color:#dde8dd}
+
+.footer{
+  margin-top:26px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:14px;
+  justify-content:space-between;align-items:center;
+}
+.save-hint{
+  font-size:11px;font-weight:500;color:var(--muted);
+  display:flex;align-items:center;gap:8px;
+}
+.save-hint::before{
+  content:"";
+  width:6px;height:6px;border-radius:50%;
+  background:var(--ok);
+  opacity:.85;
+}
+.btn-r{
+  font-family:inherit;
+  font-size:11px;font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  padding:11px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--muted);
+  transition:border-color .2s var(--ease),color .2s var(--ease),background .2s var(--ease);
+}
+.btn-r:hover{
+  border-color:rgba(181,45,34,.35);
+  color:var(--accent);
+  background:var(--accent-soft);
+}
+
+@media(min-width:600px){
+  .masthead{margin:0;border-radius:0 0 22px 22px}
+}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <header class="masthead">
+    <div class="masthead-inner">
+      <p class="kicker">Preparación de viaje</p>
+      <h1 class="htitle">Feria de <em>Cantón</em> &amp; Yiwu 2026</h1>
+      <p class="hsub">Guangzhou · Yiwu · Colombia → China</p>
+      <div class="pills">
+        <span class="pill r">Fase 1 · 17–21 abr</span>
+        <span class="pill r">Fase 2 · 25 abr–4 may</span>
+        <span class="pill r">Fase 3 · 5–8 may</span>
+        <span class="pill">Yiwu al final de Fase 1</span>
+        <span class="pill">Haizhu · 海珠区</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="sheet">
+    <div class="progress-card">
+      <div class="progress-head">
+        <div>
+          <p class="progress-kicker">Progreso total</p>
+          <div class="progress-big" aria-live="polite">
+            <span class="n-done" id="sD">0</span><span class="n-of">de</span><span class="n-tot" id="sT">0</span>
+          </div>
+          <p class="progress-sub">ítems listos en todas las categorías</p>
+        </div>
+        <div class="progress-badge" id="sP">0%</div>
+      </div>
+      <div class="pb" id="pbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progreso del checklist">
+        <div class="pf" id="pf"></div>
+      </div>
+      <p class="pt" id="pt"></p>
+    </div>
+
+    <p class="ux-hint">Toca la fila o el círculo para marcar. En el teléfono, pulsa «Lista» y elige en el panel; en pantalla ancha, usa los chips.</p>
+
+    <div class="nav-sticky">
+      <div class="cat-row">
+        <span class="field-label" id="catPickerLabel">Lista</span>
+        <button type="button" class="cat-trigger" id="catTrigger" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="catPickerLabel catTriggerText">
+          <span class="cat-trigger-text" id="catTriggerText"></span>
+          <span class="cat-trigger-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+      </div>
+      <nav class="tabs-outer" aria-label="Categorías">
+        <div class="tw"><div class="tabs" id="tabs"></div></div>
+      </nav>
+    </div>
+
+    <div class="content" id="content" role="tabpanel"></div>
+
+    <footer class="footer">
+      <p class="save-hint">Guardado en este dispositivo</p>
+      <button type="button" class="btn-r" onclick="resetAll()">Reiniciar</button>
+    </footer>
+  </div>
+</div>
+
+<div class="list-picker" id="listPicker" aria-hidden="true">
+  <div class="list-picker-backdrop" id="listPickerBackdrop"></div>
+  <div class="list-picker-sheet" role="dialog" aria-modal="true" aria-labelledby="listPickerTitle">
+    <div class="list-picker-handle" aria-hidden="true"></div>
+    <div class="list-picker-head">
+      <h2 class="list-picker-title" id="listPickerTitle">Elegir lista</h2>
+      <button type="button" class="list-picker-close" id="listPickerClose" aria-label="Cerrar">×</button>
+    </div>
+    <div class="list-picker-list" id="listPickerList" role="listbox" aria-label="Categorías del checklist"></div>
+  </div>
+</div>
+
+<script>
+const data={
+"Documentos":{
+  "Viaje y empresa":[
+    {l:"Pasaporte vigente (mín. 6 meses)",n:"Verificar fecha de vencimiento"},
+    {l:"Visa China aprobada",n:"Tramitar con mínimo 3 semanas de anticipación"},
+    {l:"Seguro de viaje internacional",n:"Cobertura médica y de equipaje"},
+    {l:"Tiquetes impresos o en PDF offline"},
+    {l:"Dirección del hotel en chino impresa",n:"广东省广州市海珠区 工业大道北110号 海珠新天地13楼1314房"},
+    {l:"Tarjetas de presentación empresa",n:"Mínimo 200 · idealmente con chino al reverso",t:"imp"},
+    {l:"Lista de proveedores objetivo",n:"Con nombre del stand, categoría y preguntas clave",t:"imp"},
+    {l:"Catálogo de productos a importar en PDF",t:"imp"},
+    {l:"Carta de presentación empresa (inglés/chino)",t:"imp"},
+  ]
+},
+"Tecnología":{
+  "Cámara y fotografía":[
+    {l:"Cámara principal",n:"Para documentar productos en feria y fábricas",t:"foto"},
+    {l:"Lentes adicionales",n:"Gran angular + macro para detalles de producto",t:"foto"},
+    {l:"Baterías extra (mínimo 3)",n:"Los días de feria son muy largos",t:"foto"},
+    {l:"Tarjetas SD 64GB+ (mínimo 2)",t:"foto"},
+    {l:"Mini gorilla pod / trípode portátil",t:"foto"},
+    {l:"Cargador doble de baterías",t:"foto"},
+  ],
+  "Dispositivos y carga":[
+    {l:"Laptop / tablet",n:"Para catálogos, notas y pedidos"},
+    {l:"Teléfono desbloqueado para SIM china"},
+    {l:"Adaptador de enchufe tipo A e I",n:"China usa ambos formatos"},
+    {l:"Power bank 20,000 mAh+",n:"Días de feria = 8+ horas fuera"},
+    {l:"Cables USB-C y Lightning de repuesto"},
+    {l:"Disco duro externo para respaldo fotos",t:"foto"},
+    {l:"VPN instalada y probada ANTES de salir",n:"Google, WhatsApp e Instagram bloqueados en China"},
+  ]
+},
+"Ropa":{
+  "Clima Guangzhou (22–30°C, húmedo)":[
+    {l:"Ropa formal ligera para reuniones"},
+    {l:"Ropa casual cómoda para la feria",n:"Caminarás 15–20 km diarios"},
+    {l:"Zapatos cómodos cerrados (2 pares)",n:"El Complejo Pazhou es enorme"},
+    {l:"Sandalias para el hotel"},
+    {l:"Paraguas compacto / poncho",n:"Temporada de lluvias"},
+    {l:"Ropa interior extra (mínimo 7 días)"},
+    {l:"Camisetas de algodón",n:"La humedad es muy alta, evitar sintéticos"},
+  ],
+  "Equipaje":[
+    {l:"Maleta principal con candado TSA"},
+    {l:"Mochila ligera para la feria",n:"Laptop, cámara, catálogos, agua"},
+    {l:"Bolsas resellables grandes",n:"Para muestras y folletos de proveedores"},
+    {l:"Packing cubes organizadores"},
+  ]
+},
+"Salud":{
+  "Medicamentos":[
+    {l:"Ibuprofeno / Acetaminofén",n:"Dolor de cabeza por jet lag y cansancio"},
+    {l:"Antidiarreico (Loperamida)",n:"Cambio de dieta radical — muy importante"},
+    {l:"Antiácido / protector gástrico"},
+    {l:"Antihistamínico (alergias/picaduras)"},
+    {l:"Pastillas para el mareo",n:"Para el tren a Yiwu"},
+    {l:"Suero oral / sales de rehidratación"},
+    {l:"Vitamina C y multivitamínico",n:"Para sostener el sistema 3 semanas"},
+    {l:"Melatonina",n:"Jet lag: diferencia de 13h con Colombia"},
+    {l:"Termómetro digital"},
+    {l:"Medicamentos personales (+ extra)"},
+  ],
+  "Botiquín":[
+    {l:"Curitas surtidas",n:"Para ampollas de tanto caminar"},
+    {l:"Crema para ampollas en pies"},
+    {l:"Tapabocas KN95 (mínimo 10)"},
+    {l:"Gel antibacterial y toallitas"},
+    {l:"Protector solar SPF 50+"},
+    {l:"Repelente de insectos"},
+  ]
+},
+"Café":{
+  "Tu empresa de café":[
+    {l:"Muestras de café empacadas al vacío",n:"Para socios y compradores chinos — mercado en boom",t:"cafe"},
+    {l:"Tarjetas del negocio con QR a catálogo",t:"cafe"},
+    {l:"Brochure: historia, origen, varietales, altitud",t:"cafe"},
+    {l:"Investigar ferias de café en Guangzhou",n:"Mercado de café especial de más rápido crecimiento mundial",t:"cafe"},
+    {l:"Buscar proveedores de packaging",n:"Cantón Fase 3 y Yiwu tienen buenas opciones",t:"cafe"},
+  ]
+},
+"Dinero":{
+  "Finanzas y pagos":[
+    {l:"Yuan chino en efectivo (mínimo USD 300)",n:"Cambiar antes de salir — difícil sin cuenta local"},
+    {l:"Tarjeta Visa/Mastercard habilitada internacional"},
+    {l:"WeChat Pay o Alipay configurado",n:"China funciona ~100% sin efectivo — configurar ANTES"},
+    {l:"App del banco habilitada para uso en exterior"},
+    {l:"Presupuesto por categoría definido",n:"Muestras, transporte, comidas, hospedaje",t:"imp"},
+  ]
+},
+"Apps":{
+  "Instalar antes de salir de Colombia":[
+    {l:"VPN (ExpressVPN / NordVPN)",n:"Activar ANTES de llegar — después no se puede descargar"},
+    {l:"WeChat con cuenta verificada",n:"El WhatsApp chino — fundamental para negocios"},
+    {l:"Google Maps offline: Guangzhou + Yiwu"},
+    {l:"Baidu Maps instalado",n:"Google Maps falla en China"},
+    {l:"Google Translate offline (chino descargado)"},
+    {l:"Google Translate con cámara activa",n:"Escanear texto chino en tiempo real"},
+    {l:"Pleco (diccionario chino)"},
+    {l:"SIM china contratada",n:"China Mobile HK es popular para visitantes"},
+  ]
+},
+"Objetivos":{
+  "Cantón Fase 1 · 17–21 abr · electrónica, maquinaria":[
+    {l:"Mapear pabellones objetivo por categoría de producto",t:"imp"},
+    {l:"Recopilar muestras + ficha técnica + precio FOB",t:"imp"},
+    {l:"Fotografiar cada producto con etiqueta del stand visible",t:"imp"},
+    {l:"Registrar: MOQ, precio, tiempo entrega, método de pago",t:"imp"},
+    {l:"Confirmar si son fabricante directo o trading company",n:"Preferir fabricantes directos",t:"imp"},
+    {l:"Conseguir catálogo físico o digital de cada proveedor",t:"imp"},
+  ],
+  "Cantón Fase 2 · 25 abr–4 may · hogar, deco, regalos":[
+    {l:"Explorar productos con potencial para el mercado colombiano",t:"imp"},
+    {l:"Comparar mínimo 3 proveedores por categoría",n:"Nunca ir con el primero",t:"imp"},
+    {l:"Negociar muestra gratis a cambio de pedido potencial",t:"imp"},
+    {l:"Verificar certificaciones requeridas (CE, RoHS, etc.)",t:"imp"},
+  ],
+  "Cantón Fase 3 · 5–8 may · textiles, moda, accesorios":[
+    {l:"Explorar textiles y accesorios para Colombia",t:"imp"},
+    {l:"Buscar proveedores de packaging para empresa de café",t:"cafe"},
+    {l:"Cerrar top 10 proveedores con contacto WeChat",t:"imp"},
+  ],
+  "Visita a Yiwu":[
+    {l:"Conseguir traductor/guía local en Yiwu",n:"Esencial — pocos hablan inglés",t:"imp"},
+    {l:"Ir con lista de productos y cantidades específicas",n:"Yiwu es para volumen — preparar números exactos",t:"imp"},
+    {l:"Comparar precios Cantón vs Yiwu por categoría",t:"imp"},
+    {l:"Documentar precios al por mayor con fotos de referencia",t:"imp"},
+  ],
+  "Fotografía en la feria":[
+    {l:"Documentar procesos productivos en visitas a fábricas",n:"Siempre pedir permiso al fabricante",t:"foto"},
+    {l:"Fotografiar stands bien logrados como referencia propia",t:"foto"},
+    {l:"Buscar accesorios y equipos fotográficos",n:"Guangzhou y Yiwu tienen precios muy competitivos",t:"foto"},
+  ]
+}
+};
+
+const TABS=Object.keys(data);
+let active=TABS[0];
+const STORE_KEY='canton2026_v1';
+
+function loadChecked(){
+  try{return JSON.parse(localStorage.getItem(STORE_KEY)||'{}')}catch(e){return{}}
+}
+function saveChecked(ck){
+  try{localStorage.setItem(STORE_KEY,JSON.stringify(ck))}catch(e){}
+}
+let ck=loadChecked();
+
+function key(t,s,i){return t+'||'+s+'||'+i}
+
+function tagHtml(t){
+  if(!t)return'';
+  const m={imp:['t-imp','Importación'],foto:['t-foto','Fotografía'],cafe:['t-cafe','Café']};
+  const[c,l]=m[t]||[];
+  return c?`<span class="tag ${c}">${l}</span>`:'';
+}
+
+function tick(){
+  return`<svg width="14" height="11" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+
+function pulseCb(el){
+  if(!el||window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  el.classList.remove('pop');
+  void el.offsetWidth;
+  el.classList.add('pop');
+}
+
+function countAll(){
+  let tot=0,done=0;
+  TABS.forEach(tab=>Object.entries(data[tab]).forEach(([s,items])=>items.forEach((_,i)=>{tot++;if(ck[key(tab,s,i)])done++})));
+  return{tot,done};
+}
+
+function countTab(tabName){
+  let tot=0,done=0;
+  Object.entries(data[tabName]).forEach(([s,items])=>{
+    items.forEach((_,i)=>{
+      tot++;
+      if(ck[key(tabName,s,i)])done++;
+    });
+  });
+  return{tot,done};
+}
+
+function setCatTriggerLabel(){
+  const el=document.getElementById('catTriggerText');
+  if(!el)return;
+  const r=countTab(active);
+  el.textContent=active+(r.tot?' · '+r.done+'/'+r.tot:'');
+}
+
+function buildListPickerList(){
+  const list=document.getElementById('listPickerList');
+  if(!list)return;
+  list.innerHTML='';
+  TABS.forEach(tab=>{
+    const r=countTab(tab);
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.setAttribute('role','option');
+    btn.className='list-picker-opt'+(tab===active?' is-on':'');
+    if(r.tot>0&&r.done===r.tot)btn.classList.add('lpo-done');
+    btn.setAttribute('aria-selected',tab===active?'true':'false');
+    const name=document.createElement('span');
+    name.className='lpo-name';
+    name.textContent=tab;
+    const cnt=document.createElement('span');
+    cnt.className='lpo-count';
+    cnt.textContent=r.done+'/'+r.tot;
+    const chk=document.createElement('span');
+    chk.className='lpo-check';
+    chk.setAttribute('aria-hidden','true');
+    if(tab===active)chk.textContent='\u2713';
+    btn.append(name,cnt,chk);
+    btn.addEventListener('click',()=>{
+      active=tab;
+      closeListPicker();
+      renderTabs();
+      renderContent();
+      updateStats();
+    });
+    list.appendChild(btn);
+  });
+}
+
+const listPickerEl=document.getElementById('listPicker');
+function openListPicker(){
+  buildListPickerList();
+  if(listPickerEl){
+    listPickerEl.classList.add('is-open');
+    listPickerEl.setAttribute('aria-hidden','false');
+  }
+  const tr=document.getElementById('catTrigger');
+  if(tr)tr.setAttribute('aria-expanded','true');
+  document.body.style.overflow='hidden';
+}
+function closeListPicker(){
+  if(listPickerEl){
+    listPickerEl.classList.remove('is-open');
+    listPickerEl.setAttribute('aria-hidden','true');
+  }
+  const tr=document.getElementById('catTrigger');
+  if(tr)tr.setAttribute('aria-expanded','false');
+  document.body.style.overflow='';
+}
+
+function refreshSelectAndTabs(){
+  setCatTriggerLabel();
+  document.querySelectorAll('#tabs .tab').forEach(btn=>{
+    const t=btn.dataset.tab;
+    if(!t)return;
+    const r=countTab(t);
+    const mc=btn.querySelector('.tab-count');
+    if(mc)mc.textContent=r.tot?r.done+'/'+r.tot:'0/0';
+    btn.classList.toggle('tab-all-done',r.tot>0&&r.done===r.tot);
+  });
+}
+
+function updateStats(){
+  const{tot,done}=countAll();
+  const pend=tot-done;
+  const cat=countTab(active);
+  const p=tot?Math.round(done/tot*100):0;
+  document.getElementById('sT').textContent=tot;
+  document.getElementById('sD').textContent=done;
+  document.getElementById('sP').textContent=p+'%';
+  document.getElementById('pf').style.width=p+'%';
+  const pbar=document.getElementById('pbar');
+  if(pbar){
+    pbar.setAttribute('aria-valuenow',String(p));
+    pbar.setAttribute('aria-valuetext',p+' por ciento');
+  }
+  const pt=document.getElementById('pt');
+  if(pt){
+    if(tot===0)pt.textContent='';
+    else if(pend===0)pt.textContent='Todo listo en todas las listas.';
+    else pt.textContent='En «'+active+'»: '+cat.done+'/'+cat.tot+' · '+pend+' pendiente'+(pend!==1?'s':'')+' en total';
+  }
+  refreshSelectAndTabs();
+}
+
+function renderTabs(){
+  const c=document.getElementById('tabs');
+  c.innerHTML='';
+  c.setAttribute('role','tablist');
+  TABS.forEach(tab=>{
+    const r=countTab(tab);
+    const b=document.createElement('button');
+    b.type='button';
+    b.dataset.tab=tab;
+    b.className='tab'+(tab===active?' on':'');
+    if(r.tot>0&&r.done===r.tot)b.classList.add('tab-all-done');
+    b.setAttribute('role','tab');
+    b.setAttribute('aria-selected',tab===active?'true':'false');
+    b.innerHTML='<span class="tab-t">'+tab+'</span><span class="tab-count">'+(r.tot?r.done+'/'+r.tot:'0/0')+'</span>';
+    b.onclick=()=>{
+      active=tab;
+      renderTabs();
+      renderContent();
+      updateStats();
+    };
+    c.appendChild(b);
+  });
+  setCatTriggerLabel();
+}
+
+function renderContent(){
+  const c=document.getElementById('content');c.innerHTML='';
+  Object.entries(data[active]).forEach(([sec,items])=>{
+    const s=document.createElement('section');s.className='sec';
+    const h=document.createElement('div');h.className='sh';
+    const ht=document.createElement('h2');ht.className='st';ht.textContent=sec;
+    h.appendChild(ht);
+    s.appendChild(h);
+    const listCard=document.createElement('div');
+    listCard.className='list-card';
+    items.forEach((item,i)=>{
+      const k=key(active,sec,i);
+      const done=!!ck[k];
+      const d=document.createElement('div');
+      d.className='item'+(done?' done':'');
+      d.setAttribute('role','checkbox');
+      d.setAttribute('aria-checked',done?'true':'false');
+      d.tabIndex=0;
+      d.innerHTML=`<div class="cb" aria-hidden="true">${done?tick():''}</div><div class="item-body"><div class="ilab">${item.l}${tagHtml(item.t)}</div>${item.n?`<div class="inote">${item.n}</div>`:''}</div>`;
+      const toggle=()=>{
+        ck[k]=!ck[k];
+        saveChecked(ck);
+        d.className='item'+(ck[k]?' done':'');
+        d.setAttribute('aria-checked',ck[k]?'true':'false');
+        const cbEl=d.querySelector('.cb');
+        cbEl.innerHTML=ck[k]?tick():'';
+        if(ck[k])pulseCb(cbEl);
+        updateStats();
+      };
+      d.onclick=toggle;
+      d.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}};
+      listCard.appendChild(d);
+    });
+    s.appendChild(listCard);
+    c.appendChild(s);
+  });
+}
+
+function resetAll(){
+  if(confirm('¿Reiniciar todos los ítems? Se borrará tu progreso guardado.')){
+    Object.keys(ck).forEach(k=>delete ck[k]);
+    saveChecked(ck);
+    renderTabs();
+    renderContent();
+    updateStats();
+  }
+}
+
+(function initListPickerUi(){
+  const tr=document.getElementById('catTrigger');
+  const bd=document.getElementById('listPickerBackdrop');
+  const cl=document.getElementById('listPickerClose');
+  if(tr)tr.addEventListener('click',()=>{
+    if(listPickerEl&&listPickerEl.classList.contains('is-open'))closeListPicker();
+    else openListPicker();
+  });
+  if(bd)bd.addEventListener('click',closeListPicker);
+  if(cl)cl.addEventListener('click',closeListPicker);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&listPickerEl&&listPickerEl.classList.contains('is-open'))closeListPicker();
+  });
+})();
+
+renderTabs();
+renderContent();
+updateStats();
+</script>
+</body>
+</html>
