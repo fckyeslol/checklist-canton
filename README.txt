@@ -3,33 +3,45 @@ CHECKLIST FERIA DE CANTÓN 2026
 Rafael Deulofeut · 17 abr – 8 may 2026
 Guangzhou (广州) + Yiwu (义乌)
 
-CÓMO USAR:
------------
-1. Abre el archivo "index.html" en cualquier navegador
-   (Chrome, Safari, Firefox — sin necesidad de internet)
+USO OFFLINE (iPhone / iPad)
+---------------------------
+La app ya no depende de Google Fonts: tipografía del sistema (se ve bien en iOS).
 
-2. Navega por las 8 pestañas:
-   - Documentos
-   - Tecnología
-   - Ropa
-   - Salud
-   - Café
-   - Dinero
-   - Apps
-   - Objetivos (por fase de feria)
+Opción A — Desde la web (GitHub Pages u otro HTTPS)
+  1. Abre la página una vez con Wi‑Fi o datos (para que se guarde en caché).
+  2. Safari → botón compartir → «Añadir a pantalla de inicio».
+  3. Ábrela desde el icono: debería funcionar sin internet (service worker).
 
-3. Haz clic en cada ítem para marcarlo como listo ✓
+Opción B — Archivo en el teléfono (sin publicar web)
+  1. Envía index.html por AirDrop, correo o súbelo a iCloud Drive / Archivos.
+  2. En Archivos, pulsa index.html → se abre en Safari.
+  3. Funciona offline. El progreso sigue guardándose en localStorage.
+  Nota: con archivo local el «service worker» no aplica; igualmente todo el contenido va dentro del HTML.
 
-4. Tu progreso se guarda automáticamente en el navegador
-   (localStorage) — puedes cerrar y volver a abrir sin perder avance
+CÓMO USAR
+---------
+1. Abre index.html en el navegador (o el acceso en pantalla de inicio).
 
-5. Las etiquetas de color indican a qué empresa aplica:
-   🟣 Importación
-   🟡 Fotografía
-   🟢 Café
+2. Listas / categorías:
+   - En el móvil: botón «Lista» (panel inferior).
+   - En pantalla ancha: chips horizontales.
 
-NOTAS IMPORTANTES:
-------------------
+3. Pulsa cada ítem (o el círculo) para marcarlo ✓
+
+4. El progreso se guarda en el dispositivo (localStorage).
+
+5. Etiquetas:
+   Importación · Fotografía · Café
+
+ARCHIVOS DEL PROYECTO
+---------------------
+- index.html      → aplicación completa
+- manifest.webmanifest → para «añadir a inicio» / PWA
+- sw.js           → caché offline (solo con HTTPS, p. ej. GitHub Pages)
+- icon.svg        → icono de la app
+
+NOTAS IMPORTANTES
+-----------------
 - Instalar VPN ANTES de salir de Colombia
 - Configurar WeChat Pay ANTES del viaje
 - Llevar dirección del hotel en chino impresa

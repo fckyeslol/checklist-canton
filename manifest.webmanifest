@@ -1,0 +1,19 @@
+{
+  "name": "Checklist Feria de Cantón y Yiwu 2026",
+  "short_name": "Cantón 2026",
+  "description": "Checklist de preparación para viaje de negocios a China",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fffcf9",
+  "theme_color": "#1c1814",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
