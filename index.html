@@ -9,7 +9,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Cantón 2026">
-<link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon.svg">
 <style>
@@ -623,25 +622,12 @@ body{
 .ilab{
   font-size:15px;font-weight:600;color:var(--ink);
   line-height:1.4;
-  display:flex;align-items:center;flex-wrap:wrap;gap:8px;
 }
 .inote{
   font-size:12px;font-weight:400;color:var(--muted);
   margin-top:5px;line-height:1.5;
   max-width:46ch;
 }
-
-.tag{
-  font-size:9px;font-weight:700;
-  padding:3px 8px;
-  border-radius:6px;
-  letter-spacing:.05em;
-  text-transform:uppercase;
-  border:1px solid transparent;
-}
-.t-imp{background:#f3effa;color:#4f3d7a;border-color:#e4daf0}
-.t-foto{background:#faf6eb;color:#6b5410;border-color:#ede4cf}
-.t-cafe{background:#eef4ee;color:#2d5a30;border-color:#dde8dd}
 
 .footer{
   margin-top:26px;
@@ -700,7 +686,6 @@ body{
   .ilab{font-size:16px}
   .inote{font-size:13px;max-width:min(65ch,100%)}
   .cb{width:28px;height:28px}
-  .tag{font-size:10px;padding:4px 10px}
   .footer{margin-top:32px;padding-top:24px}
   .save-hint{font-size:12px}
   .btn-r{font-size:12px;padding:12px 22px;border-radius:12px}
@@ -886,6 +871,68 @@ body{
   padding:14px 20px;border-radius:12px;border:1px solid var(--line);
   background:var(--surface);color:var(--muted);cursor:pointer;
 }
+
+/* —— Personalizar —— */
+.cust-wrap{padding-bottom:8px}
+.cust-lead{font-size:13px;color:var(--muted);line-height:1.45;margin-bottom:18px}
+.cust-block{
+  border:1px solid var(--line);border-radius:14px;background:#faf9f7;
+  padding:16px 16px 14px;margin-bottom:14px;
+}
+.cust-block h3{
+  font-family:var(--font-display);font-size:1.05rem;font-weight:600;margin-bottom:10px;color:var(--ink);
+}
+.cust-form-grid{display:grid;gap:12px}
+.cust-form-grid label{
+  display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;
+}
+.cust-form-grid input,.cust-form-grid select,.cust-form-grid textarea{
+  width:100%;font:inherit;font-size:14px;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);
+}
+.cust-form-grid textarea{min-height:72px;resize:vertical}
+.btn-cust-add{
+  font:inherit;font-size:14px;font-weight:700;padding:12px 18px;border-radius:11px;border:none;cursor:pointer;
+  background:var(--ink);color:#faf7f2;margin-top:4px;
+}
+.btn-cust-add:hover{opacity:.92}
+.cust-subcat{
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+  margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line2);
+}
+.cust-subcat:first-child{margin-top:0}
+.cust-row{
+  display:flex;align-items:flex-start;gap:10px;justify-content:space-between;
+  padding:10px 0;border-bottom:1px solid var(--line2);font-size:13px;line-height:1.4;
+}
+.cust-row:last-child{border-bottom:none}
+.cust-row-txt{flex:1;min-width:0}
+.cust-row-txt b{color:var(--ink);font-weight:600}
+.cust-row-meta{font-size:11px;color:var(--muted);margin-top:4px}
+.cust-row-actions{display:flex;flex-wrap:wrap;gap:6px;flex-shrink:0}
+.btn-cust-sm{
+  font:inherit;font-size:12px;font-weight:600;padding:7px 11px;border-radius:8px;border:1px solid var(--line);
+  background:var(--surface);color:var(--muted);cursor:pointer;
+}
+.btn-cust-sm:hover{border-color:#c9c2b8;color:var(--ink)}
+.btn-cust-sm.danger{border-color:rgba(181,45,34,.35);color:var(--accent)}
+.btn-cust-sm.danger:hover{background:rgba(181,45,34,.06)}
+.cust-empty{font-size:13px;color:var(--muted);padding:8px 0}
+.cust-cat{
+  margin-top:14px;border:1px solid var(--line2);border-radius:12px;padding:12px 14px;background:var(--surface);
+}
+.cust-cat summary{
+  font-weight:600;font-size:14px;cursor:pointer;list-style:none;
+}
+.cust-cat summary::-webkit-details-marker{display:none}
+.cust-cat summary::after{content:"+";float:right;color:var(--muted);font-weight:400}
+.cust-cat[open] summary::after{content:"−"}
+.task-modal .prov-modal-panel{max-width:420px}
+.task-hide-row{margin-top:12px;padding-top:12px;border-top:1px solid var(--line2)}
+.btn-task-hide{
+  width:100%;font:inherit;font-size:13px;font-weight:600;padding:11px;border-radius:10px;
+  border:1px solid rgba(181,45,34,.35);background:rgba(181,45,34,.06);color:var(--accent);cursor:pointer;
+}
+.tabs .tab.tab-cust .tab-count{opacity:.55}
 </style>
 </head>
 <body>
@@ -982,6 +1029,32 @@ body{
         </div>
         <div class="prov-modal-actions">
           <button type="button" class="btn-prov-cancel" id="provModalCancel">Cancelar</button>
+          <button type="submit" class="btn-prov-save">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="prov-modal task-modal" id="taskModal" aria-hidden="true">
+  <div class="prov-modal-bg" id="taskModalBg"></div>
+  <div class="prov-modal-panel" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+    <div class="prov-modal-head">
+      <h3 id="taskModalTitle">Editar tarea</h3>
+      <button type="button" class="prov-modal-close" id="taskModalClose" aria-label="Cerrar">×</button>
+    </div>
+    <div class="prov-modal-scroll">
+      <form id="taskForm">
+        <input type="hidden" id="taskEditKind" value="">
+        <input type="hidden" id="taskEditKey" value="">
+        <input type="hidden" id="taskEditId" value="">
+        <div class="prov-field"><label for="taskTitle">Título</label><input id="taskTitle" required autocomplete="off"></div>
+        <div class="prov-field"><label for="taskNote">Nota (opcional)</label><textarea id="taskNote" placeholder="Detalle o recordatorio"></textarea></div>
+        <div class="task-hide-row hidden" id="taskHideRow">
+          <button type="button" class="btn-task-hide" id="taskBtnHide">Quitar de mi lista (ocultar)</button>
+        </div>
+        <div class="prov-modal-actions">
+          <button type="button" class="btn-prov-cancel" id="taskModalCancel">Cancelar</button>
           <button type="submit" class="btn-prov-save">Guardar</button>
         </div>
       </form>
@@ -1140,13 +1213,21 @@ const data={
 
 const TABS=Object.keys(data);
 const TAB_PROV='Proveedores';
-const TAB_LIST=TABS.concat([TAB_PROV]);
+const TAB_CUSTOM='Personalizar';
+const TAB_LIST=TABS.concat([TAB_CUSTOM,TAB_PROV]);
+if(typeof location!=='undefined'&&location.protocol!=='file:'){
+  var _lm=document.createElement('link');
+  _lm.rel='manifest';
+  _lm.href='manifest.webmanifest';
+  document.head.appendChild(_lm);
+}
 let active=TABS[0];
 let supplierCountCache=0;
 let pendingCardBlob=null;
 let provPhotoObjectUrl=null;
 let provCamCleanup=null;
 const STORE_KEY='canton2026_v1';
+const PREFS_KEY='canton2026_prefs_v1';
 const DB_NAME='canton_suppliers_v1';
 const DB_STORE='suppliers';
 let dbPromise=null;
@@ -1383,13 +1464,59 @@ function saveChecked(ck){
 }
 let ck=loadChecked();
 
-function key(t,s,i){return t+'||'+s+'||'+i}
+function loadPrefs(){
+  try{
+    var o=JSON.parse(localStorage.getItem(PREFS_KEY)||'null');
+    if(!o||typeof o!=='object')return{hidden:{},edits:{},customs:[]};
+    return{
+      hidden:o.hidden&&typeof o.hidden==='object'?o.hidden:{},
+      edits:o.edits&&typeof o.edits==='object'?o.edits:{},
+      customs:Array.isArray(o.customs)?o.customs:[]
+    };
+  }catch(e){
+    return{hidden:{},edits:{},customs:[]};
+  }
+}
+function savePrefs(p){
+  try{localStorage.setItem(PREFS_KEY,JSON.stringify(p))}catch(e){}
+}
+let prefs=loadPrefs();
 
-function tagHtml(t){
-  if(!t)return'';
-  const m={imp:['t-imp','Importación'],foto:['t-foto','Fotografía'],cafe:['t-cafe','Café']};
-  const[c,l]=m[t]||[];
-  return c?`<span class="tag ${c}">${l}</span>`:'';
+function key(t,s,i){return t+'||'+s+'||'+i}
+function customKey(id){return 'c||'+id}
+
+function mergedSections(tab){
+  var base=data[tab]?Object.keys(data[tab]).slice():[];
+  var extra={};
+  prefs.customs.forEach(function(c){
+    if(c.tab===tab&&base.indexOf(c.section)<0)extra[c.section]=true;
+  });
+  return base.concat(Object.keys(extra).sort());
+}
+
+function getMergedItem(tab,sec,i){
+  var raw=data[tab]&&data[tab][sec]?data[tab][sec][i]:undefined;
+  var ed=prefs.edits[key(tab,sec,i)]||{};
+  var base=raw&&typeof raw==='object'?raw:{l:'',n:''};
+  return{
+    l:typeof ed.l==='string'?ed.l:base.l,
+    n:'n'in ed?ed.n:(base.n==null?'':base.n)
+  };
+}
+
+function forEachVisibleTask(tab,fn){
+  mergedSections(tab).forEach(function(sec){
+    var defs=data[tab][sec]||[];
+    for(var i=0;i<defs.length;i++){
+      var k=key(tab,sec,i);
+      if(prefs.hidden[k])continue;
+      fn({type:'def',k:k,tab:tab,sec:sec,idx:i,item:getMergedItem(tab,sec,i)});
+    }
+    prefs.customs.forEach(function(c){
+      if(c.tab===tab&&c.section===sec)
+        fn({type:'custom',k:customKey(c.id),id:c.id,tab:tab,sec:sec,item:{l:c.l,n:c.n||''}});
+    });
+  });
 }
 
 function tick(){
@@ -1404,19 +1531,22 @@ function pulseCb(el){
 }
 
 function countAll(){
-  let tot=0,done=0;
-  TABS.forEach(tab=>Object.entries(data[tab]).forEach(([s,items])=>items.forEach((_,i)=>{tot++;if(ck[key(tab,s,i)])done++})));
+  var tot=0,done=0;
+  TABS.forEach(function(tab){
+    forEachVisibleTask(tab,function(o){
+      tot++;
+      if(ck[o.k])done++;
+    });
+  });
   return{tot,done};
 }
 
 function countTab(tabName){
-  if(tabName===TAB_PROV)return{tot:0,done:0};
-  let tot=0,done=0;
-  Object.entries(data[tabName]).forEach(([s,items])=>{
-    items.forEach((_,i)=>{
-      tot++;
-      if(ck[key(tabName,s,i)])done++;
-    });
+  if(tabName===TAB_PROV||tabName===TAB_CUSTOM)return{tot:0,done:0};
+  var tot=0,done=0;
+  forEachVisibleTask(tabName,function(o){
+    tot++;
+    if(ck[o.k])done++;
   });
   return{tot,done};
 }
@@ -1428,6 +1558,10 @@ function setCatTriggerLabel(){
     el.textContent='Proveedores'+(supplierCountCache?' · '+supplierCountCache+' tarj.':'');
     return;
   }
+  if(active===TAB_CUSTOM){
+    el.textContent=TAB_CUSTOM;
+    return;
+  }
   const r=countTab(active);
   el.textContent=active+(r.tot?' · '+r.done+'/'+r.tot:'');
 }
@@ -1437,7 +1571,7 @@ function buildListPickerList(){
   if(!list)return;
   list.innerHTML='';
   TAB_LIST.forEach(tab=>{
-    const r=tab===TAB_PROV?null:countTab(tab);
+    const r=tab===TAB_PROV||tab===TAB_CUSTOM?null:countTab(tab);
     const btn=document.createElement('button');
     btn.type='button';
     btn.setAttribute('role','option');
@@ -1449,7 +1583,7 @@ function buildListPickerList(){
     name.textContent=tab;
     const cnt=document.createElement('span');
     cnt.className='lpo-count';
-    cnt.textContent=tab===TAB_PROV?String(supplierCountCache)+' tarj.':(r&&r.tot?r.done+'/'+r.tot:'0/0');
+    cnt.textContent=tab===TAB_PROV?String(supplierCountCache)+' tarj.':tab===TAB_CUSTOM?'—':(r&&r.tot?r.done+'/'+r.tot:'0/0');
     const chk=document.createElement('span');
     chk.className='lpo-check';
     chk.setAttribute('aria-hidden','true');
@@ -1458,6 +1592,7 @@ function buildListPickerList(){
     btn.addEventListener('click',()=>{
       active=tab;
       closeListPicker();
+      closeTaskModal();
       closeProvModal();
       renderTabs();
       renderContent();
@@ -1498,6 +1633,10 @@ function refreshSelectAndTabs(){
       if(mc)mc.textContent=String(supplierCountCache);
       return;
     }
+    if(t===TAB_CUSTOM){
+      if(mc)mc.textContent='—';
+      return;
+    }
     const r=countTab(t);
     if(mc)mc.textContent=r.tot?r.done+'/'+r.tot:'0/0';
     btn.classList.toggle('tab-all-done',r.tot>0&&r.done===r.tot);
@@ -1518,6 +1657,15 @@ function updateStats(){
         ?'Añade tarjetas con foto y datos de contacto.'
         :supplierCountCache+' tarjeta'+(supplierCountCache!==1?'s':'')+' guardada'+(supplierCountCache!==1?'s':'')+'.';
     }
+    refreshSelectAndTabs();
+    return;
+  }
+  if(active===TAB_CUSTOM){
+    if(chk)chk.classList.add('hidden');
+    if(btnReset)btnReset.classList.add('hidden');
+    if(foot)foot.textContent='Cambios de tareas guardados en este dispositivo.';
+    const pt=document.getElementById('pt');
+    if(pt)pt.textContent='Añade tareas, edita las sugeridas u oculta las que no apliquen.';
     refreshSelectAndTabs();
     return;
   }
@@ -1556,10 +1704,13 @@ function renderTabs(){
     b.dataset.tab=tab;
     b.className='tab'+(tab===active?' on':'');
     if(tab===TAB_PROV)b.classList.add('tab-prov');
+    if(tab===TAB_CUSTOM)b.classList.add('tab-cust');
     let countStr;
     let r={tot:0,done:0};
     if(tab===TAB_PROV){
       countStr=String(supplierCountCache);
+    }else if(tab===TAB_CUSTOM){
+      countStr='—';
     }else{
       r=countTab(tab);
       if(r.tot>0&&r.done===r.tot)b.classList.add('tab-all-done');
@@ -1571,6 +1722,7 @@ function renderTabs(){
     b.onclick=()=>{
       active=tab;
       closeListPicker();
+      closeTaskModal();
       closeProvModal();
       renderTabs();
       renderContent();
@@ -1581,6 +1733,266 @@ function renderTabs(){
   setCatTriggerLabel();
 }
 
+function renderChecklistRow(k,item,listCard){
+  const done=!!ck[k];
+  const d=document.createElement('div');
+  d.className='item'+(done?' done':'');
+  d.setAttribute('role','checkbox');
+  d.setAttribute('aria-checked',done?'true':'false');
+  d.tabIndex=0;
+  const noteHtml=item.n?`<div class="inote">${escapeHtml(item.n)}</div>`:'';
+  d.innerHTML='<div class="cb" aria-hidden="true">'+(done?tick():'')+'</div><div class="item-body"><div class="ilab">'+escapeHtml(item.l)+'</div>'+noteHtml+'</div>';
+  const toggle=function(){
+    ck[k]=!ck[k];
+    saveChecked(ck);
+    d.className='item'+(ck[k]?' done':'');
+    d.setAttribute('aria-checked',ck[k]?'true':'false');
+    const cbEl=d.querySelector('.cb');
+    cbEl.innerHTML=ck[k]?tick():'';
+    if(ck[k])pulseCb(cbEl);
+    updateStats();
+  };
+  d.onclick=toggle;
+  d.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}};
+  listCard.appendChild(d);
+}
+
+function renderCustomizeView(container){
+  container.innerHTML='';
+  var wrap=document.createElement('div');
+  wrap.className='cust-wrap';
+  var lead=document.createElement('p');
+  lead.className='cust-lead';
+  lead.textContent='Las tareas nuevas aparecen en la categoría que elijas. Puedes editar el texto de las sugerencias u ocultar las que no uses; los cambios se guardan en este dispositivo.';
+  wrap.appendChild(lead);
+
+  var addBlock=document.createElement('div');
+  addBlock.className='cust-block';
+  addBlock.innerHTML='<h3>Añadir tarea</h3>';
+  var form=document.createElement('div');
+  form.className='cust-form-grid';
+  var sel=document.createElement('select');
+  sel.id='custAddTab';
+  sel.setAttribute('aria-label','Categoría');
+  TABS.forEach(function(t){
+    var o=document.createElement('option');
+    o.value=t;o.textContent=t;
+    sel.appendChild(o);
+  });
+  var lab1=document.createElement('label');
+  lab1.htmlFor='custAddTab';lab1.textContent='Categoría';
+  var w1=document.createElement('div');
+  w1.append(lab1,sel);
+
+  var secIn=document.createElement('input');
+  secIn.type='text';secIn.id='custAddSec';secIn.placeholder='Ej. Viaje y empresa';
+  secIn.setAttribute('aria-label','Subsección');
+  var lab2=document.createElement('label');
+  lab2.htmlFor='custAddSec';lab2.textContent='Subsección (agrupa la tarea)';
+  var w2=document.createElement('div');
+  w2.append(lab2,secIn);
+
+  var titIn=document.createElement('input');
+  titIn.type='text';titIn.id='custAddTitle';titIn.required=true;
+  titIn.placeholder='Qué debes hacer o llevar';
+  titIn.setAttribute('aria-label','Título de la tarea');
+  var lab3=document.createElement('label');
+  lab3.htmlFor='custAddTitle';lab3.textContent='Título';
+  var w3=document.createElement('div');
+  w3.append(lab3,titIn);
+
+  var noteTa=document.createElement('textarea');
+  noteTa.id='custAddNote';noteTa.placeholder='Nota opcional';
+  noteTa.setAttribute('aria-label','Nota');
+  var lab4=document.createElement('label');
+  lab4.htmlFor='custAddNote';lab4.textContent='Nota (opcional)';
+  var w4=document.createElement('div');
+  w4.append(lab4,noteTa);
+
+  var btnAdd=document.createElement('button');
+  btnAdd.type='button';
+  btnAdd.className='btn-cust-add';
+  btnAdd.textContent='Añadir a la lista';
+  btnAdd.onclick=function(){
+    var tab=sel.value;
+    var sec=(secIn.value||'').trim()||'General';
+    var title=(titIn.value||'').trim();
+    if(!title){alert('Escribe un título para la tarea.');return;}
+    var id=(typeof crypto!=='undefined'&&crypto.randomUUID)?crypto.randomUUID():'cu_'+Date.now()+'_'+Math.random().toString(36).slice(2,9);
+    var rec={id:id,tab:tab,section:sec,l:title,n:(noteTa.value||'').trim()};
+    prefs.customs.push(rec);
+    savePrefs(prefs);
+    titIn.value='';noteTa.value='';
+    renderTabs();
+    renderContent();
+    updateStats();
+  };
+  form.append(w1,w2,w3,w4,btnAdd);
+  addBlock.appendChild(form);
+  wrap.appendChild(addBlock);
+
+  var myBlock=document.createElement('div');
+  myBlock.className='cust-block';
+  myBlock.innerHTML='<h3>Tareas que añadiste</h3>';
+  if(prefs.customs.length===0){
+    var em=document.createElement('p');
+    em.className='cust-empty';
+    em.textContent='Todavía no hay tareas propias. Usa el formulario de arriba.';
+    myBlock.appendChild(em);
+  }else{
+    prefs.customs.slice().forEach(function(c){
+      var row=document.createElement('div');
+      row.className='cust-row';
+      var tx=document.createElement('div');
+      tx.className='cust-row-txt';
+      tx.innerHTML='<b>'+escapeHtml(c.l)+'</b><div class="cust-row-meta">'+escapeHtml(c.tab)+' · '+escapeHtml(c.section)+'</div>';
+      var act=document.createElement('div');
+      act.className='cust-row-actions';
+      var bEd=document.createElement('button');
+      bEd.type='button';bEd.className='btn-cust-sm';bEd.textContent='Editar';
+      bEd.onclick=function(){openTaskEditCustom(c.id);};
+      var bDel=document.createElement('button');
+      bDel.type='button';bDel.className='btn-cust-sm danger';bDel.textContent='Eliminar';
+      bDel.onclick=function(){
+        if(!confirm('¿Eliminar esta tarea?'))return;
+        prefs.customs=prefs.customs.filter(function(x){return x.id!==c.id});
+        delete ck[customKey(c.id)];
+        saveChecked(ck);
+        savePrefs(prefs);
+        renderTabs();
+        renderContent();
+        updateStats();
+      };
+      act.append(bEd,bDel);
+      row.append(tx,act);
+      myBlock.appendChild(row);
+    });
+  }
+  wrap.appendChild(myBlock);
+
+  var baseWrap=document.createElement('div');
+  baseWrap.className='cust-block';
+  baseWrap.innerHTML='<h3>Tareas sugeridas (lista base)</h3><p class="cust-empty" style="margin-top:0">Edita el texto, oculta las que no apliquen o restablece una oculta.</p>';
+
+  TABS.forEach(function(tab){
+    var det=document.createElement('details');
+    det.className='cust-cat';
+    var summ=document.createElement('summary');
+    summ.textContent=tab;
+    det.appendChild(summ);
+    var inner=document.createElement('div');
+    Object.keys(data[tab]||{}).forEach(function(sec){
+      var sub=document.createElement('div');
+      sub.className='cust-subcat';
+      sub.textContent=sec;
+      inner.appendChild(sub);
+      var defs=data[tab][sec];
+      for(let i=0;i<defs.length;i++){
+        let k=key(tab,sec,i);
+        var merged=getMergedItem(tab,sec,i);
+        var row=document.createElement('div');
+        row.className='cust-row';
+        var tx=document.createElement('div');
+        tx.className='cust-row-txt';
+        if(prefs.hidden[k]){
+          tx.innerHTML='<b style="opacity:.55">'+escapeHtml(merged.l)+'</b> <span style="font-size:11px;color:var(--muted)">(oculta)</span>';
+        }else{
+          tx.innerHTML='<b>'+escapeHtml(merged.l)+'</b>';
+        }
+        var act=document.createElement('div');
+        act.className='cust-row-actions';
+        var bEd=document.createElement('button');
+        bEd.type='button';bEd.className='btn-cust-sm';bEd.textContent='Editar';
+        bEd.onclick=function(){openTaskEditDefault(tab,sec,i);};
+        if(prefs.hidden[k]){
+          var bShow=document.createElement('button');
+          bShow.type='button';bShow.className='btn-cust-sm';bShow.textContent='Mostrar';
+          bShow.onclick=function(){
+            delete prefs.hidden[k];
+            savePrefs(prefs);
+            renderTabs();
+            renderContent();
+            updateStats();
+          };
+          act.append(bEd,bShow);
+        }else{
+          var bHide=document.createElement('button');
+          bHide.type='button';bHide.className='btn-cust-sm';bHide.textContent='Ocultar';
+          bHide.onclick=function(){
+            if(!confirm('¿Ocultar esta tarea en el checklist? (Podrás mostrarla de nuevo aquí.)'))return;
+            prefs.hidden[k]=true;
+            savePrefs(prefs);
+            renderTabs();
+            renderContent();
+            updateStats();
+          };
+          act.append(bEd,bHide);
+        }
+        row.append(tx,act);
+        inner.appendChild(row);
+      }
+    });
+    det.appendChild(inner);
+    baseWrap.appendChild(det);
+  });
+
+  var resetBtn=document.createElement('button');
+  resetBtn.type='button';
+  resetBtn.className='btn-cust-sm';
+  resetBtn.style.marginTop='12px';
+  resetBtn.textContent='Restaurar textos y visibilidad de la lista base';
+  resetBtn.onclick=function(){
+    if(!confirm('Se borrarán las ediciones de texto y las tareas ocultas de la lista incorporada. Tus tareas añadidas no se tocan. ¿Continuar?'))return;
+    prefs.hidden={};
+    prefs.edits={};
+    savePrefs(prefs);
+    renderTabs();
+    renderContent();
+    updateStats();
+  };
+  baseWrap.appendChild(resetBtn);
+  wrap.appendChild(baseWrap);
+
+  container.appendChild(wrap);
+}
+
+function closeTaskModal(){
+  var m=document.getElementById('taskModal');
+  if(m){m.classList.remove('is-open');m.setAttribute('aria-hidden','true');}
+  document.body.style.overflow='';
+}
+function openTaskModal(){
+  var m=document.getElementById('taskModal');
+  if(m){m.classList.add('is-open');m.setAttribute('aria-hidden','false');}
+  document.body.style.overflow='hidden';
+}
+
+function openTaskEditDefault(tab,sec,i){
+  var k=key(tab,sec,i);
+  var merged=getMergedItem(tab,sec,i);
+  document.getElementById('taskEditKind').value='def';
+  document.getElementById('taskEditKey').value=k;
+  document.getElementById('taskEditId').value='';
+  document.getElementById('taskModalTitle').textContent='Editar tarea sugerida';
+  document.getElementById('taskTitle').value=merged.l;
+  document.getElementById('taskNote').value=merged.n||'';
+  document.getElementById('taskHideRow').classList.remove('hidden');
+  openTaskModal();
+}
+
+function openTaskEditCustom(id){
+  var c=prefs.customs.find(function(x){return x.id===id});
+  if(!c)return;
+  document.getElementById('taskEditKind').value='custom';
+  document.getElementById('taskEditKey').value='';
+  document.getElementById('taskEditId').value=id;
+  document.getElementById('taskModalTitle').textContent='Editar tu tarea';
+  document.getElementById('taskTitle').value=c.l;
+  document.getElementById('taskNote').value=c.n||'';
+  document.getElementById('taskHideRow').classList.add('hidden');
+  openTaskModal();
+}
+
 function renderContent(){
   const c=document.getElementById('content');
   c.innerHTML='';
@@ -1588,7 +2000,23 @@ function renderContent(){
     renderSuppliersView(c);
     return;
   }
-  Object.entries(data[active]).forEach(([sec,items])=>{
+  if(active===TAB_CUSTOM){
+    renderCustomizeView(c);
+    return;
+  }
+  mergedSections(active).forEach(function(sec){
+    var rows=[];
+    var defs=data[active][sec]||[];
+    for(var i=0;i<defs.length;i++){
+      var k=key(active,sec,i);
+      if(prefs.hidden[k])continue;
+      rows.push({kind:'def',k:k,item:getMergedItem(active,sec,i)});
+    }
+    prefs.customs.forEach(function(cu){
+      if(cu.tab===active&&cu.section===sec)
+        rows.push({kind:'custom',k:customKey(cu.id),item:{l:cu.l,n:cu.n||''}});
+    });
+    if(rows.length===0)return;
     const s=document.createElement('section');s.className='sec';
     const h=document.createElement('div');h.className='sh';
     const ht=document.createElement('h2');ht.className='st';ht.textContent=sec;
@@ -1596,28 +2024,8 @@ function renderContent(){
     s.appendChild(h);
     const listCard=document.createElement('div');
     listCard.className='list-card';
-    items.forEach((item,i)=>{
-      const k=key(active,sec,i);
-      const done=!!ck[k];
-      const d=document.createElement('div');
-      d.className='item'+(done?' done':'');
-      d.setAttribute('role','checkbox');
-      d.setAttribute('aria-checked',done?'true':'false');
-      d.tabIndex=0;
-      d.innerHTML=`<div class="cb" aria-hidden="true">${done?tick():''}</div><div class="item-body"><div class="ilab">${item.l}${tagHtml(item.t)}</div>${item.n?`<div class="inote">${item.n}</div>`:''}</div>`;
-      const toggle=()=>{
-        ck[k]=!ck[k];
-        saveChecked(ck);
-        d.className='item'+(ck[k]?' done':'');
-        d.setAttribute('aria-checked',ck[k]?'true':'false');
-        const cbEl=d.querySelector('.cb');
-        cbEl.innerHTML=ck[k]?tick():'';
-        if(ck[k])pulseCb(cbEl);
-        updateStats();
-      };
-      d.onclick=toggle;
-      d.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}};
-      listCard.appendChild(d);
+    rows.forEach(function(r){
+      renderChecklistRow(r.k,r.item,listCard);
     });
     s.appendChild(listCard);
     c.appendChild(s);
@@ -1646,9 +2054,57 @@ function resetAll(){
   if(cl)cl.addEventListener('click',closeListPicker);
   document.addEventListener('keydown',e=>{
     if(e.key!=='Escape')return;
+    const tm=document.getElementById('taskModal');
+    if(tm&&tm.classList.contains('is-open')){closeTaskModal();return;}
     const pm=document.getElementById('provModal');
     if(pm&&pm.classList.contains('is-open')){closeProvModal();return;}
     if(listPickerEl&&listPickerEl.classList.contains('is-open'))closeListPicker();
+  });
+})();
+
+(function initTaskModalUi(){
+  const bg=document.getElementById('taskModalBg');
+  const cl=document.getElementById('taskModalClose');
+  const ca=document.getElementById('taskModalCancel');
+  const fm=document.getElementById('taskForm');
+  const bh=document.getElementById('taskBtnHide');
+  if(bg)bg.addEventListener('click',closeTaskModal);
+  if(cl)cl.addEventListener('click',closeTaskModal);
+  if(ca)ca.addEventListener('click',closeTaskModal);
+  if(bh)bh.addEventListener('click',function(){
+    var k=document.getElementById('taskEditKey').value;
+    if(!k)return;
+    prefs.hidden[k]=true;
+    savePrefs(prefs);
+    closeTaskModal();
+    renderTabs();
+    renderContent();
+    updateStats();
+  });
+  if(fm)fm.addEventListener('submit',function(e){
+    e.preventDefault();
+    var title=document.getElementById('taskTitle').value.trim();
+    if(!title)return;
+    var note=document.getElementById('taskNote').value;
+    var kind=document.getElementById('taskEditKind').value;
+    if(kind==='custom'){
+      var id=document.getElementById('taskEditId').value;
+      var cu=prefs.customs.find(function(x){return x.id===id});
+      if(cu){
+        cu.l=title;
+        cu.n=note;
+        if('t'in cu)delete cu.t;
+        savePrefs(prefs);
+      }
+    }else{
+      var defK=document.getElementById('taskEditKey').value;
+      prefs.edits[defK]={l:title,n:note};
+      savePrefs(prefs);
+    }
+    closeTaskModal();
+    renderTabs();
+    renderContent();
+    updateStats();
   });
 })();
 
