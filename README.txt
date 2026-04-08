@@ -30,8 +30,6 @@ CÓMO USAR
 
 4. El progreso se guarda en el dispositivo (localStorage).
 
-5. Etiquetas:
-   Importación · Fotografía · Café
 
 PROVEEDORES (tarjetas de feria)
 -------------------------------
